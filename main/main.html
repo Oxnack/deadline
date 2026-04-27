@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank UI</title>
+    <title>Главная</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -31,21 +31,13 @@
 
     <!-- Истории -->
     <section class="stories-container">
-        <div class="story-card story-pension">
-            <p>Увеличьте свою пенсию</p>
-        </div>
-        <div class="story-card story-atm">
-            <p>Найти ближайший банкомат</p>
-        </div>
-        <div class="story-card story-win">
-            <p>Выиграйте 350 000 ₽ на продукты</p>
-        </div>
-        <div class="story-card story-home">
-            <p>Уборка в Доме</p>
-        </div>
+        <div class="story-card story-pension"><p>Пенсия</p></div>
+        <div class="story-card story-atm"><p>Банкомат</p></div>
+        <div class="story-card story-win"><p>Выигрыш</p></div>
+        <div class="story-card story-home"><p>Дом</p></div>
     </section>
 
-    <!-- Основные виджеты -->
+    <!-- Виджеты -->
     <section class="widget-grid">
         <div class="card operations-card">
             <h2 class="card-title">Все операции</h2>
@@ -57,10 +49,9 @@
                 <div class="segment orange" style="width: 20%;"></div>
             </div>
         </div>
-        
         <div class="card cashback-card">
             <div class="card-header">
-                <h2 class="card-title">Кэшбэк и бонусы</h2>
+                <h2 class="card-title">Кэшбэк</h2>
                 <span class="badge">1</span>
             </div>
             <div class="brand-icons">
@@ -73,18 +64,9 @@
 
     <!-- Кнопки действий -->
     <section class="action-buttons">
-        <button class="action-item">
-            <div class="action-icon">➡</div>
-            <span>Перевести по телефону</span>
-        </button>
-        <button class="action-item">
-            <div class="action-icon">➕</div>
-            <span>Пополнить Black</span>
-        </button>
-        <button class="action-item">
-            <div class="action-icon">🔳</div>
-            <span>Сканировать QR-код</span>
-        </button>
+        <button class="action-item"><div class="action-icon">➡</div><span>Перевести</span></button>
+        <button class="action-item"><div class="action-icon">➕</div><span>Пополнить</span></button>
+        <button class="action-item"><div class="action-icon">🔳</div><span>QR-код</span></button>
     </section>
 
     <!-- Карта/Счет -->
@@ -97,13 +79,15 @@
                     <span class="account-name">Black</span>
                 </div>
             </div>
-            <div class="points-badge">👑 2 P</div>
+            <div class="points-badge"> 2 P</div>
         </div>
         <div class="visual-card">
-            <span class="card-numbers">****</span>
+            <span class="card-numbers">9373</span>
             <span class="mir-logo">МИР</span>
         </div>
     </section>
+
+    <!-- Секция бюджета (Раскрывающаяся) -->
     <section class="budget-section">
         <div class="budget-toggle" id="budget-toggle-btn">
             <span class="toggle-text">📊 Мой бюджет</span>
@@ -111,13 +95,14 @@
         </div>
         
         <div class="budget-content" id="budget-content">
-            <!-- Сюда JS будет вставлять контент -->
+            <!-- Сюда JS вставит контент -->
         </div>
     </section>
+
     <!-- Промо баннер -->
     <section class="promo-banner">
         <div class="promo-content">
-            <h3>Можете вернуть на карту до 710 ₽</h3>
+            <h3>Верните на карту до 710 ₽</h3>
             <p>Посмотрите, как это сделать</p>
         </div>
         <div class="promo-img">💵</div>
@@ -127,9 +112,7 @@
 <!-- Нижнее меню -->
 <nav class="bottom-nav">
     <div class="nav-item active">
-        <div class="nav-icon-wrapper">
-            🏠 <span class="badge">2</span>
-        </div>
+        <div class="nav-icon-wrapper">🏠 <span class="badge">2</span></div>
         <span>Главная</span>
     </div>
     <div class="nav-item">
@@ -141,9 +124,7 @@
         <span>Город</span>
     </div>
     <div class="nav-item">
-        <div class="nav-icon-wrapper">
-            💬 <span class="badge">24</span>
-        </div>
+        <div class="nav-icon-wrapper">💬 <span class="badge">24</span></div>
         <span>Чат</span>
     </div>
     <div class="nav-item">
@@ -151,6 +132,7 @@
         <span>Витрина</span>
     </div>
 </nav>
+
 <script src="main.js"></script>
 </body>
 </html>
