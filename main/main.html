@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank UI</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Поиск -->
+    <header class="search-section">
+        <div class="search-bar">
+            <span class="icon">🔍</span>
+            <input type="text" placeholder="Поиск" disabled>
+        </div>
+    </header>
+
+    <!-- Профиль -->
+    <section class="profile-header">
+        <div class="user-info">
+            <div class="avatar">А</div>
+            <h1 class="username">Антон <span class="arrow">›</span></h1>
+        </div>
+        <div class="bonus-button">
+            <span class="gift-icon">🎁</span> Бонус
+            <span class="badge">1</span>
+        </div>
+    </section>
+
+    <!-- Истории -->
+    <section class="stories-container">
+        <div class="story-card story-pension">
+            <p>Увеличьте свою пенсию</p>
+        </div>
+        <div class="story-card story-atm">
+            <p>Найти ближайший банкомат</p>
+        </div>
+        <div class="story-card story-win">
+            <p>Выиграйте 350 000 ₽ на продукты</p>
+        </div>
+        <div class="story-card story-home">
+            <p>Уборка в Доме</p>
+        </div>
+    </section>
+
+    <!-- Основные виджеты -->
+    <section class="widget-grid">
+        <div class="card operations-card">
+            <h2 class="card-title">Все операции</h2>
+            <p class="card-desc">Трат в апреле<br><strong>6 703 ₽</strong></p>
+            <div class="multi-progress">
+                <div class="segment blue" style="width: 45%;"></div>
+                <div class="segment cyan" style="width: 20%;"></div>
+                <div class="segment coral" style="width: 15%;"></div>
+                <div class="segment orange" style="width: 20%;"></div>
+            </div>
+        </div>
+        
+        <div class="card cashback-card">
+            <div class="card-header">
+                <h2 class="card-title">Кэшбэк и бонусы</h2>
+                <span class="badge">1</span>
+            </div>
+            <div class="brand-icons">
+                <div class="brand dodo"></div>
+                <div class="brand vkusvill">ВВ</div>
+                <div class="brand kari">kari</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Кнопки действий -->
+    <section class="action-buttons">
+        <button class="action-item">
+            <div class="action-icon">➡</div>
+            <span>Перевести по телефону</span>
+        </button>
+        <button class="action-item">
+            <div class="action-icon">➕</div>
+            <span>Пополнить Black</span>
+        </button>
+        <button class="action-item">
+            <div class="action-icon">🔳</div>
+            <span>Сканировать QR-код</span>
+        </button>
+    </section>
+
+    <!-- Карта/Счет -->
+    <section class="account-card">
+        <div class="account-info">
+            <div class="account-main">
+                <div class="account-icon">₽</div>
+                <div class="account-details">
+                    <span class="balance">823,54 ₽</span>
+                    <span class="account-name">Black</span>
+                </div>
+            </div>
+            <div class="points-badge">👑 2 P</div>
+        </div>
+        <div class="visual-card">
+            <span class="card-numbers">****</span>
+            <span class="mir-logo">МИР</span>
+        </div>
+    </section>
+    
+    <!-- Промо баннер -->
+    <section class="promo-banner">
+        <div class="promo-content">
+            <h3>Можете вернуть на карту до 710 ₽</h3>
+            <p>Посмотрите, как это сделать</p>
+        </div>
+        <div class="promo-img">💵</div>
+    </section>
+</div>
+
+<!-- Нижнее меню -->
+<nav class="bottom-nav">
+    <div class="nav-item active">
+        <div class="nav-icon-wrapper">
+            🏠 <span class="badge">2</span>
+        </div>
+        <span>Главная</span>
+    </div>
+    <div class="nav-item">
+        <div class="nav-icon-wrapper">💳</div>
+        <span>Платежи</span>
+    </div>
+    <div class="nav-item">
+        <div class="nav-icon-wrapper">📍</div>
+        <span>Город</span>
+    </div>
+    <div class="nav-item">
+        <div class="nav-icon-wrapper">
+            💬 <span class="badge">24</span>
+        </div>
+        <span>Чат</span>
+    </div>
+    <div class="nav-item">
+        <div class="nav-icon-wrapper">🛍</div>
+        <span>Витрина</span>
+    </div>
+</nav>
+
+</body>
+</html>

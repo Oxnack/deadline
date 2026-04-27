@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бюджет в %</title>
+    <link rel="stylesheet" href="forma.css">
+</head>
+<body>
+
+<div class="container">
+    <header class="form-header">
+        <h1>Планирование бюджета</h1>
+    </header>
+
+    <!-- Секция доходов -->
+    <section class="form-section">
+        <h2 class="section-title">Ваши доходы</h2>
+        <div class="card income-card">
+            <div class="input-group">
+                <label>Основной доход</label>
+                <div class="input-wrapper">
+                    <input type="number" id="income-main" class="js-income" value="100000" placeholder="0">
+                    <span class="currency">₽</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Дополнительный доход</label>
+                <div class="input-wrapper">
+                    <input type="number" id="income-extra" class="js-income" value="0" placeholder="0">
+                    <span class="currency">₽</span>
+                </div>
+            </div>
+            <div class="total-income-display">
+                Всего доход: <span id="total-income-val">100 000</span> ₽
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция расходов в % -->
+    <section class="form-section">
+        <div class="section-header">
+            <h2 class="section-title">Расходы в % от дохода</h2>
+            <div id="status-badge" class="total-badge">Использовано: 0%</div>
+        </div>
+
+        <div class="card categories-list">
+            <!-- Категория -->
+            <div class="category-item">
+                <div class="category-info">
+                    <div class="cat-icon">🛒</div>
+                    <div>
+                        <div class="cat-name">Продукты</div>
+                        <div class="cat-calc-res" id="res-food">0 ₽</div>
+                    </div>
+                </div>
+                <div class="cat-input-percent">
+                    <input type="number" class="js-percent" data-res="res-food" value="30" min="0" max="100">
+                    <span class="perc-sign">%</span>
+                </div>
+            </div>
+
+            <div class="category-item">
+                <div class="category-info">
+                    <div class="cat-icon">🚗</div>
+                    <div>
+                        <div class="cat-name">Транспорт</div>
+                        <div class="cat-calc-res" id="res-transport">0 ₽</div>
+                    </div>
+                </div>
+                <div class="cat-input-percent">
+                    <input type="number" class="js-percent" data-res="res-transport" value="10" min="0" max="100">
+                    <span class="perc-sign">%</span>
+                </div>
+            </div>
+
+            <div class="category-item">
+                <div class="category-info">
+                    <div class="cat-icon">🏠</div>
+                    <div>
+                        <div class="cat-name">Жилье и ЖКХ</div>
+                        <div class="cat-calc-res" id="res-home">0 ₽</div>
+                    </div>
+                </div>
+                <div class="cat-input-percent">
+                    <input type="number" class="js-percent" data-res="res-home" value="25" min="0" max="100">
+                    <span class="perc-sign">%</span>
+                </div>
+            </div>
+
+            <div class="category-item">
+                <div class="category-info">
+                    <div class="cat-icon">🎬</div>
+                    <div>
+                        <div class="cat-name">Развлечения</div>
+                        <div class="cat-calc-res" id="res-fun">0 ₽</div>
+                    </div>
+                </div>
+                <div class="cat-input-percent">
+                    <input type="number" class="js-percent" data-res="res-fun" value="15" min="0" max="100">
+                    <span class="perc-sign">%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Итоги -->
+    <div class="summary-card">
+        <div class="progress-container">
+            <div id="main-progress-bar" class="progress-fill"></div>
+        </div>
+        <div class="summary-row">
+            <span>Остаток (Инвестиции):</span>
+            <span id="final-savings" class="summary-value">0 ₽</span>
+        </div>
+        <div class="summary-subtext" id="final-percent-text">Свободно: 20% от дохода</div>
+        <button class="main-btn">Сохранить план</button>
+    </div>
+</div>
+
+<script src="forma.js"></script>
+</body>
+</html>
