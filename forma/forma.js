@@ -1,3 +1,14 @@
+// В начале script.js для формы
+document.addEventListener('DOMContentLoaded', () => {
+    const backBtn = document.querySelector('.back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    }
+    // ... остальной код
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const incomeInputs = document.querySelectorAll('.js-income');
     const percentInputs = document.querySelectorAll('.js-percent');
@@ -193,3 +204,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadPlan();
 });
+

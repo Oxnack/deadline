@@ -222,3 +222,43 @@ body {
     width: 100%; background: #ffdd2d; border: none; padding: 18px; border-radius: 20px;
     font-size: 16px; font-weight: 700; margin-top: 20px; cursor: pointer;
 }
+
+/* Кнопка назад */
+.back-btn {
+    background: #f0f3f8;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--accent-blue);
+    transition: all 0.2s;
+    flex-shrink: 0; /* Чтобы кнопка не сжималась */
+}
+
+.back-btn:hover {
+    background: #e0e5ec;
+}
+
+.back-btn:active {
+    transform: scale(0.95);
+}
+
+/* Обновленный хедер формы */
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Отступ между кнопкой и заголовком */
+    margin-bottom: 24px;
+}
+
+.form-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    white-space: nowrap; /* Чтобы текст не переносился */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
