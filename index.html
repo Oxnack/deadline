@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Т-Банк · Супермаркеты | Умный заказ</title>
-  <!-- Подключаем шрифт, похожий на фирменный стиль Т-Банка -->
+  <title>Т-Банк · Пакеты еды | Комбо-наборы</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 для иконок -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -19,33 +17,32 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f5f5;
+      background: #e8ecf1;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       min-height: 100vh;
-      padding: 16px;
+      padding: 12px;
     }
 
-    /* Симуляция мобильного экрана */
     .phone-frame {
-      max-width: 390px;
+      max-width: 400px;
       width: 100%;
-      background: #ffffff;
-      border-radius: 44px;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1);
+      background: #fff;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
       overflow: hidden;
-      position: relative;
-      height: 780px;
+      height: 820px;
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(0,0,0,0.08);
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.05);
     }
 
     .app-screen {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 16px 12px;
+      padding: 18px 14px 10px;
       display: flex;
       flex-direction: column;
       gap: 18px;
@@ -53,311 +50,303 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .app-screen::-webkit-scrollbar {
-      width: 0;
-    }
+    .app-screen::-webkit-scrollbar { width: 0; }
 
-    /* Шапка */
+    /* Header */
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .header-left {
+    .logo-area {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .logo-badge {
+    .t-badge {
       background: #000;
       color: #fff;
-      font-weight: 700;
-      font-size: 16px;
-      padding: 6px 10px;
+      font-weight: 800;
+      font-size: 17px;
+      padding: 5px 10px;
       border-radius: 12px;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+      background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
     }
     .header h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #111;
-      letter-spacing: -0.3px;
-    }
-    .header i {
-      font-size: 20px;
-      color: #555;
-      background: #f0f0f0;
-      padding: 8px;
-      border-radius: 50%;
-    }
-
-    /* Финансовый ассистент - карточка бюджета */
-    .budget-card {
-      background: linear-gradient(105deg, #1f1f1f 0%, #2d2d2d 100%);
-      border-radius: 24px;
-      padding: 16px 18px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-    }
-    .budget-info h3 {
-      font-size: 13px;
-      font-weight: 500;
-      opacity: 0.8;
-      margin-bottom: 4px;
-    }
-    .budget-amount {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .budget-bar {
-      background: rgba(255,255,255,0.2);
-      height: 6px;
-      border-radius: 10px;
-      width: 80px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-    .budget-fill {
-      background: #f5e56c;
-      width: 65%;
-      height: 100%;
-      border-radius: 10px;
-    }
-    .budget-icon {
-      font-size: 28px;
-      background: rgba(255,255,255,0.15);
-      padding: 10px;
-      border-radius: 50%;
-    }
-
-    /* Секция: Умная корзина (предиктивный повтор) */
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    .section-title h3 {
       font-size: 17px;
       font-weight: 700;
       color: #111;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
-    .badge {
-      background: #ffecb3;
-      color: #5d3c00;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 20px;
-      letter-spacing: 0.3px;
-    }
-    .smart-cart {
-      background: #f9f9fb;
-      border-radius: 20px;
-      padding: 14px;
-      border: 1px solid #eee;
-    }
-    .cart-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid #efefef;
-    }
-    .cart-item:last-child {
-      border-bottom: none;
-    }
-    .item-icon {
-      font-size: 22px;
-      width: 36px;
-      text-align: center;
-    }
-    .item-details {
-      flex: 1;
-    }
-    .item-name {
-      font-weight: 600;
-      font-size: 15px;
-      color: #222;
-    }
-    .item-meta {
-      font-size: 12px;
-      color: #777;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 2px;
-    }
-    .repeat-badge {
-      background: #e8f0fe;
-      color: #174ea6;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
-    .price {
-      font-weight: 700;
-      color: #111;
-    }
-    .add-btn {
-      background: #fff;
-      border: 1.5px solid #ddd;
+    .header-actions i {
+      font-size: 18px;
+      margin-left: 16px;
+      color: #333;
+      background: #f5f5f5;
+      padding: 8px;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+    }
+
+    /* Табы навигации */
+    .nav-tabs {
+      display: flex;
+      background: #f2f2f6;
+      border-radius: 20px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .nav-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 4px;
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 18px;
+      color: #666;
+      cursor: pointer;
+      transition: 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #333;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
+      gap: 4px;
     }
-    .add-btn:hover {
-      background: #000;
-      color: #fff;
-      border-color: #000;
-    }
-
-    /* События из календаря */
-    .event-suggestion {
-      background: #e6f7e6;
-      border-radius: 18px;
-      padding: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-left: 5px solid #2e7d32;
-    }
-    .event-icon {
-      font-size: 26px;
-      background: white;
-      border-radius: 12px;
-      padding: 6px;
-    }
-    .event-text {
-      flex:1;
-    }
-    .event-text strong {
-      font-size: 15px;
-      display: block;
-      color: #1b5e20;
-    }
-    .event-text span {
-      font-size: 12px;
-      color: #2e5e2e;
-    }
-
-    /* Мульти-корзина сравнение */
-    .multi-store {
+    .nav-tab.active {
       background: #fff;
-      border-radius: 20px;
-      border: 1px solid #e0e0e0;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .store-logos i {
-      font-size: 24px;
-      margin-right: 3px;
-      color: #444;
-    }
-    .multi-info {
-      font-weight: 600;
-      font-size: 14px;
-    }
-    .multi-save {
-      background: #000;
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
+      color: #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       font-weight: 700;
     }
+    .nav-tab i { font-size: 13px; }
 
-    /* Кнопка главного действия */
-    .primary-order-btn {
+    /* Общие контейнеры секций */
+    .section { display: none; }
+    .section.active { display: flex; flex-direction: column; gap: 16px; }
+
+    /* --- ПАКЕТЫ (комбо) --- */
+    .package-card {
+      background: #fff;
+      border-radius: 22px;
+      border: 1.5px solid #eee;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transition: 0.2s;
+    }
+    .package-header {
+      padding: 12px 14px;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .package-store {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .store-icon {
+      background: #ffda79;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .package-price {
+      font-weight: 800;
+      font-size: 16px;
+      color: #111;
+    }
+    .package-body {
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .product-tag {
+      background: #f4f4f8;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1.5px solid transparent;
+      position: relative;
+    }
+    .product-tag i { font-size: 11px; color: #888; }
+    .product-tag:hover {
+      background: #e8e8ff;
+      border-color: #aaa;
+    }
+    .package-footer {
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f0f0f0;
+    }
+    .add-package-btn {
       background: #000;
       color: #fff;
       border: none;
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .add-package-btn:hover { background: #222; }
+    .custom-badge {
+      background: #e0f2e9;
+      color: #0b5e3c;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    /* --- ЛЕНТА --- */
+    .feed-item {
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px;
+      border: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .feed-emoji {
+      font-size: 30px;
+      background: #f9f9fc;
+      border-radius: 14px;
+      padding: 6px;
+    }
+    .feed-info strong {
+      display: block;
+      font-size: 14px;
+    }
+    .feed-info span {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* --- КОРЗИНА --- */
+    .cart-item-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-emoji { font-size: 22px; }
+    .cart-detail { flex:1; font-weight: 600; font-size: 14px; }
+    .cart-price { font-weight: 700; }
+    .remove-cart {
+      color: #c00;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .cart-summary {
+      background: #f9f9f9;
       border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+    .checkout-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
       padding: 16px;
       font-weight: 700;
       font-size: 16px;
-      display: flex;
+      cursor: pointer;
+    }
+
+    /* Модальное окно замены */
+    .modal-overlay {
+      position: absolute;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      display: none;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      margin-top: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-      letter-spacing: -0.2px;
+      z-index: 100;
     }
-    .primary-order-btn i {
-      font-size: 18px;
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 28px;
+      padding: 20px;
+      width: 85%;
+      max-width: 320px;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.3);
     }
-    .primary-order-btn:hover {
-      background: #222;
+    .modal-box h4 {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 16px;
     }
-
-    .tab-nav {
+    .swap-option {
       display: flex;
-      background: #f2f2f2;
-      border-radius: 20px;
-      padding: 3px;
-      margin: 4px 0 8px;
-    }
-    .tab {
-      flex: 1;
-      text-align: center;
-      padding: 8px;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      margin-bottom: 8px;
+      background: #f8f8fa;
+      cursor: pointer;
       font-weight: 600;
-      font-size: 13px;
-      border-radius: 18px;
-      color: #555;
+      transition: 0.1s;
+      border: 2px solid transparent;
+    }
+    .swap-option:hover { background: #eef; border-color: #aaa; }
+    .swap-option.selected { border-color: #000; background: #e9e9ff; }
+    .close-modal {
+      margin-top: 10px;
+      background: #ddd;
+      border: none;
+      padding: 10px;
+      border-radius: 14px;
+      width: 100%;
+      font-weight: 600;
       cursor: pointer;
     }
-    .tab.active {
-      background: white;
-      color: #000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
 
-    .hidden {
-      display: none;
-    }
-
-    .toast-message {
-      background: #000;
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 600;
+    .toast {
       position: absolute;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      white-space: nowrap;
-      z-index: 100;
+      background: #000;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 13px;
+      z-index: 200;
       opacity: 0;
       transition: 0.2s;
       pointer-events: none;
     }
-    .toast-message.show {
-      opacity: 1;
-      bottom: 30px;
-    }
+    .toast.show { opacity: 1; bottom: 28px; }
   </style>
 </head>
 <body>
@@ -365,194 +354,266 @@
   <div class="app-screen" id="appScreen">
     <!-- Хедер -->
     <div class="header">
-      <div class="header-left">
-        <span class="logo-badge">Т</span>
-        <h2>Супермаркеты</h2>
+      <div class="logo-area">
+        <span class="t-badge">Т</span>
+        <h2>Пакеты еды</h2>
       </div>
-      <i class="fas fa-sliders-h"></i>
-    </div>
-
-    <!-- Финансовый ассистент (экосистема Т-Банка) -->
-    <div class="budget-card">
-      <div class="budget-info">
-        <h3><i class="far fa-credit-card"></i> Бюджет на продукты</h3>
-        <div class="budget-amount">14 200 ₽</div>
-        <div class="budget-bar"><div class="budget-fill"></div></div>
-        <span style="font-size:11px; opacity:0.7;">Осталось 35% до конца месяца</span>
-      </div>
-      <div class="budget-icon">
-        <i class="fas fa-chart-pie"></i>
+      <div class="header-actions">
+        <i class="far fa-bell"></i>
+        <i class="far fa-user-circle"></i>
       </div>
     </div>
 
-    <!-- Табы -->
-    <div class="tab-nav">
-      <div class="tab active" id="tabSmart">🧠 Умный</div>
-      <div class="tab" id="tabRegular">🛒 Обычный</div>
+    <!-- Навигация -->
+    <div class="nav-tabs">
+      <div class="nav-tab active" data-tab="packages"><i class="fas fa-box-open"></i> Пакеты</div>
+      <div class="nav-tab" data-tab="feed"><i class="fas fa-stream"></i> Лента</div>
+      <div class="nav-tab" data-tab="cart"><i class="fas fa-shopping-basket"></i> Корзина <span id="cartCount">2</span></div>
     </div>
 
-    <!-- Контент Умного режима -->
-    <div id="smartContent">
-      <!-- Предиктивная корзина -->
-      <div class="section-title">
-        <h3><i class="fas fa-rotate-left" style="color:#f5b042;"></i> Повторить заказ <span class="badge">AI прогноз</span></h3>
-        <span style="font-size:12px; color:#666;">ср, 26 апр</span>
-      </div>
-      <div class="smart-cart">
-        <div class="cart-item">
-          <span class="item-icon">🥛</span>
-          <div class="item-details">
-            <div class="item-name">Молоко 3.2%</div>
-            <div class="item-meta"><span class="repeat-badge">каждые 4 дня</span> ВкусВилл</div>
-          </div>
-          <span class="price">89₽</span>
-          <div class="add-btn"><i class="fas fa-plus"></i></div>
+    <!-- ПАКЕТЫ -->
+    <div class="section active" id="section-packages">
+      <!-- Пакет 1: Готовый комбо -->
+      <div class="package-card" id="package1">
+        <div class="package-header">
+          <div class="package-store"><span class="store-icon">🍏</span> ВкусВилл</div>
+          <span class="package-price">890 ₽</span>
         </div>
-        <div class="cart-item">
-          <span class="item-icon">🍞</span>
-          <div class="item-details">
-            <div class="item-name">Хлеб бородинский</div>
-            <div class="item-meta"><span class="repeat-badge">закончится завтра</span> Ашан</div>
-          </div>
-          <span class="price">62₽</span>
-          <div class="add-btn"><i class="fas fa-plus"></i></div>
+        <div class="package-body" id="package1-items">
+          <span class="product-tag" data-product="Молоко">🥛 Молоко <i class="fas fa-sync-alt"></i></span>
+          <span class="product-tag" data-product="Хлеб">🍞 Хлеб <i class="fas fa-sync-alt"></i></span>
+          <span class="product-tag" data-product="Фанта">🥤 Фанта <i class="fas fa-sync-alt"></i></span>
+          <span class="product-tag" data-product="Сыр">🧀 Сыр <i class="fas fa-sync-alt"></i></span>
         </div>
-        <div class="cart-item">
-          <span class="item-icon">🥑</span>
-          <div class="item-details">
-            <div class="item-name">Авокадо хасс</div>
-            <div class="item-meta">2 шт · Лента</div>
-          </div>
-          <span class="price">210₽</span>
-          <div class="add-btn"><i class="fas fa-plus"></i></div>
+        <div class="package-footer">
+          <span class="custom-badge"><i class="far fa-clock"></i> доставим за 30 мин</span>
+          <button class="add-package-btn"><i class="fas fa-plus-circle"></i> В корзину</button>
         </div>
       </div>
 
-      <!-- Событие из календаря (экосистема) -->
-      <div class="event-suggestion">
-        <div class="event-icon">🧺</div>
-        <div class="event-text">
-          <strong>Пикник в парке · завтра 14:00</strong>
-          <span>Добавить набор: снеки, вода, фрукты</span>
+      <!-- Пакет 2: Персональный (собран пользователем) -->
+      <div class="package-card" id="package2">
+        <div class="package-header">
+          <div class="package-store"><span class="store-icon">🛒</span> Мой пакет · Ашан</div>
+          <span class="package-price">1 240 ₽</span>
         </div>
-        <i class="fas fa-chevron-right" style="color:#2e7d32;"></i>
-      </div>
-
-      <!-- Мульти-корзина и оптимизация -->
-      <div class="multi-store">
-        <div class="store-logos">
-          <i class="fas fa-store-alt"></i> <i class="fas fa-shopping-basket"></i>
+        <div class="package-body" id="package2-items">
+          <span class="product-tag" data-product="Курица">🍗 Курица <i class="fas fa-sync-alt"></i></span>
+          <span class="product-tag" data-product="Рис">🍚 Рис <i class="fas fa-sync-alt"></i></span>
+          <span class="product-tag" data-product="Авокадо">🥑 Авокадо <i class="fas fa-sync-alt"></i></span>
         </div>
-        <div class="multi-info">
-          Ваша корзина дешевле на <strong>8%</strong> при разделении
+        <div class="package-footer">
+          <span class="custom-badge">⭐ сохранён 12 апр</span>
+          <button class="add-package-btn"><i class="fas fa-plus-circle"></i> В корзину</button>
         </div>
-        <span class="multi-save">-320₽</span>
       </div>
     </div>
 
-    <!-- Обычный режим (скрыт по умолчанию) -->
-    <div id="regularContent" class="hidden">
-      <div style="background:#f4f4f4; border-radius:20px; padding:16px; text-align:center; color:#555;">
-        <i class="fas fa-store" style="font-size:24px; margin-bottom:6px;"></i>
-        <p style="font-weight:500;">Каталоги магазинов</p>
-        <p style="font-size:12px;">Выберите магазин для ручного заказа</p>
+    <!-- ЛЕНТА -->
+    <div class="section" id="section-feed">
+      <div class="feed-item"><span class="feed-emoji">🔥</span><div class="feed-info"><strong>Новый комбо-пакет</strong><span>Бургер + кола за 399₽</span></div></div>
+      <div class="feed-item"><span class="feed-emoji">📦</span><div class="feed-info"><strong>Ваш пакет обновлён</strong><span>Добавлен новый продукт</span></div></div>
+      <div class="feed-item"><span class="feed-emoji">💡</span><div class="feed-info"><strong>Совет</strong><span>Замените фанту на колу — дешевле</span></div></div>
+    </div>
+
+    <!-- КОРЗИНА -->
+    <div class="section" id="section-cart">
+      <div id="cartItemsContainer">
+        <div class="cart-item-row"><span class="cart-emoji">🥛</span><span class="cart-detail">Молоко</span><span class="cart-price">89₽</span><button class="remove-cart"><i class="fas fa-trash-alt"></i></button></div>
+        <div class="cart-item-row"><span class="cart-emoji">🍞</span><span class="cart-detail">Хлеб</span><span class="cart-price">62₽</span><button class="remove-cart"><i class="fas fa-trash-alt"></i></button></div>
+      </div>
+      <div class="cart-summary"><span>Итого</span><span id="cartTotal">151₽</span></div>
+      <button class="checkout-btn" id="checkoutBtn"><i class="fas fa-bolt"></i> Оформить заказ</button>
+    </div>
+
+    <!-- Модалка замены -->
+    <div class="modal-overlay" id="swapModal">
+      <div class="modal-box">
+        <h4>🔄 Заменить <span id="swapProductName">Фанта</span></h4>
+        <div id="swapOptionsContainer"></div>
+        <button class="close-modal" id="closeSwapModal">Отмена</button>
       </div>
     </div>
 
-    <!-- Кнопка оформления (смарт-ордер) -->
-    <button class="primary-order-btn" id="smartOrderBtn">
-      <i class="fas fa-bolt"></i> Собрать умную корзину (4 товара)
-    </button>
-
-    <!-- Тост -->
-    <div class="toast-message" id="toast">✓ Товары добавлены в корзину</div>
+    <div class="toast" id="toast"></div>
   </div>
 </div>
 
 <script>
   (function() {
-    // DOM элементы
-    const tabSmart = document.getElementById('tabSmart');
-    const tabRegular = document.getElementById('tabRegular');
-    const smartContent = document.getElementById('smartContent');
-    const regularContent = document.getElementById('regularContent');
-    const smartOrderBtn = document.getElementById('smartOrderBtn');
+    // Состояние
+    const state = {
+      cart: [
+        { emoji: '🥛', name: 'Молоко', price: 89 },
+        { emoji: '🍞', name: 'Хлеб', price: 62 }
+      ],
+      packages: {
+        package1: ['Молоко', 'Хлеб', 'Фанта', 'Сыр'],
+        package2: ['Курица', 'Рис', 'Авокадо']
+      },
+      currentSwapPackage: null,
+      currentSwapProduct: null
+    };
+
+    // DOM
+    const sections = {
+      packages: document.getElementById('section-packages'),
+      feed: document.getElementById('section-feed'),
+      cart: document.getElementById('section-cart')
+    };
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const cartCountSpan = document.getElementById('cartCount');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartTotal = document.getElementById('cartTotal');
     const toast = document.getElementById('toast');
-    const addButtons = document.querySelectorAll('.add-btn');
+    const swapModal = document.getElementById('swapModal');
+    const swapProductName = document.getElementById('swapProductName');
+    const swapOptionsContainer = document.getElementById('swapOptionsContainer');
+    const closeSwapModalBtn = document.getElementById('closeSwapModal');
+
+    // Альтернативы для замены
+    const swapAlternatives = {
+      'Фанта': ['Кока-Кола', 'Спрайт', 'Лимонад'],
+      'Молоко': ['Кефир', 'Ряженка', 'Миндальное молоко'],
+      'Хлеб': ['Чиабатта', 'Лаваш', 'Багет'],
+      'Сыр': ['Моцарелла', 'Пармезан', 'Чеддер'],
+      'Курица': ['Индейка', 'Говядина', 'Тофу'],
+      'Рис': ['Гречка', 'Булгур', 'Киноа'],
+      'Авокадо': ['Огурец', 'Цукини', 'Манго']
+    };
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    function updateCartUI() {
+      cartItemsContainer.innerHTML = '';
+      let total = 0;
+      state.cart.forEach((item, index) => {
+        total += item.price;
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+        row.innerHTML = `
+          <span class="cart-emoji">${item.emoji}</span>
+          <span class="cart-detail">${item.name}</span>
+          <span class="cart-price">${item.price}₽</span>
+          <button class="remove-cart" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
+        `;
+        cartItemsContainer.appendChild(row);
+      });
+      cartTotal.textContent = total + '₽';
+      cartCountSpan.textContent = state.cart.length;
+      document.querySelectorAll('.remove-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.dataset.index);
+          state.cart.splice(idx, 1);
+          updateCartUI();
+          showToast('Удалено из корзины');
+        });
+      });
+    }
+
+    function addToCart(emoji, name, price) {
+      state.cart.push({ emoji, name, price });
+      updateCartUI();
+      showToast(`${name} добавлен в корзину`);
+    }
+
+    // Рендер пакетов с обработчиками замены
+    function renderPackageItems() {
+      document.querySelectorAll('.package-body').forEach(body => {
+        body.querySelectorAll('.product-tag').forEach(tag => {
+          tag.addEventListener('click', (e) => {
+            const product = tag.dataset.product;
+            const packageId = body.id;
+            openSwapModal(packageId, product, tag);
+          });
+        });
+      });
+    }
+
+    function openSwapModal(packageId, product, element) {
+      state.currentSwapPackage = packageId;
+      state.currentSwapProduct = product;
+      swapProductName.textContent = product;
+      const alternatives = swapAlternatives[product] || ['Нет альтернатив'];
+      swapOptionsContainer.innerHTML = '';
+      alternatives.forEach(alt => {
+        const div = document.createElement('div');
+        div.className = 'swap-option';
+        div.textContent = alt;
+        div.addEventListener('click', () => {
+          document.querySelectorAll('.swap-option').forEach(o => o.classList.remove('selected'));
+          div.classList.add('selected');
+          // Выполняем замену
+          if (state.currentSwapPackage && state.currentSwapProduct) {
+            const packageBody = document.getElementById(state.currentSwapPackage);
+            if (packageBody) {
+              const tags = packageBody.querySelectorAll('.product-tag');
+              tags.forEach(t => {
+                if (t.dataset.product === state.currentSwapProduct) {
+                  t.dataset.product = alt;
+                  t.childNodes[0].textContent = getEmojiForProduct(alt) + ' ' + alt + ' ';
+                  // обновляем иконку замены
+                }
+              });
+              showToast(`Заменено на ${alt}`);
+            }
+          }
+          swapModal.classList.remove('show');
+        });
+        swapOptionsContainer.appendChild(div);
+      });
+      swapModal.classList.add('show');
+    }
+
+    function getEmojiForProduct(name) {
+      const map = {
+        'Кока-Кола':'🥤','Спрайт':'🥤','Лимонад':'🍋','Молоко':'🥛','Кефир':'🥛','Ряженка':'🥛',
+        'Хлеб':'🍞','Чиабатта':'🍞','Багет':'🥖','Сыр':'🧀','Моцарелла':'🧀','Курица':'🍗','Рис':'🍚',
+        'Гречка':'🌾','Авокадо':'🥑','Фанта':'🥤'
+      };
+      return map[name] || '📦';
+    }
+
+    closeSwapModalBtn.addEventListener('click', () => swapModal.classList.remove('show'));
+
+    // Обработчики кнопок "В корзину" у пакетов
+    document.querySelectorAll('.add-package-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = btn.closest('.package-card');
+        const tags = card.querySelectorAll('.product-tag');
+        tags.forEach(tag => {
+          const name = tag.dataset.product;
+          const emoji = getEmojiForProduct(name);
+          addToCart(emoji, name, 99); // заглушка цены
+        });
+      });
+    });
 
     // Переключение табов
-    tabSmart.addEventListener('click', () => {
-      tabSmart.classList.add('active');
-      tabRegular.classList.remove('active');
-      smartContent.classList.remove('hidden');
-      regularContent.classList.add('hidden');
-      smartOrderBtn.style.display = 'flex';
-    });
-
-    tabRegular.addEventListener('click', () => {
-      tabRegular.classList.add('active');
-      tabSmart.classList.remove('active');
-      regularContent.classList.remove('hidden');
-      smartContent.classList.add('hidden');
-      smartOrderBtn.style.display = 'none';
-    });
-
-    // Функция показа тоста
-    function showToast(text) {
-      toast.textContent = text || '✓ Обновлено';
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 1800);
-    }
-
-    // Обработка кнопок "+" в предиктивной корзине
-    addButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // меняем иконку временно
-        const icon = btn.querySelector('i');
-        icon.className = 'fas fa-check';
-        btn.style.background = '#000';
-        btn.style.color = '#fff';
-        btn.style.borderColor = '#000';
-        showToast('Добавлено в умную корзину');
-        setTimeout(() => {
-          icon.className = 'fas fa-plus';
-          btn.style.background = '#fff';
-          btn.style.color = '#333';
-          btn.style.borderColor = '#ddd';
-        }, 1200);
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        navTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const tabName = tab.dataset.tab;
+        Object.keys(sections).forEach(key => sections[key].classList.remove('active'));
+        sections[tabName].classList.add('active');
       });
     });
 
-    // Основная кнопка "Собрать умную корзину"
-    smartOrderBtn.addEventListener('click', () => {
-      showToast('🧠 Корзина собрана: экономия 320₽');
-      // Дополнительная анимация или логика
-      smartOrderBtn.innerHTML = '<i class="fas fa-check-circle"></i> Готово · доставка через 45 мин';
-      setTimeout(() => {
-        smartOrderBtn.innerHTML = '<i class="fas fa-bolt"></i> Собрать умную корзину (4 товара)';
-      }, 2500);
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (state.cart.length === 0) {
+        showToast('Корзина пуста');
+      } else {
+        showToast('🎉 Заказ оформлен!');
+      }
     });
 
-    // Обработка клика по событию пикника (демо)
-    const eventSuggestion = document.querySelector('.event-suggestion');
-    if (eventSuggestion) {
-      eventSuggestion.addEventListener('click', () => {
-        showToast('🎉 Набор для пикника добавлен!');
-      });
-    }
-
-    // Мульти-корзина клик
-    const multiStore = document.querySelector('.multi-store');
-    if (multiStore) {
-      multiStore.addEventListener('click', () => {
-        showToast('🔍 Оптимальный набор из 2 магазинов');
-      });
-    }
-
-    console.log('MVP Т-Банк Супермаркеты: предиктивная корзина + события + бюджет активированы');
+    renderPackageItems();
+    updateCartUI();
   })();
 </script>
 </body>
