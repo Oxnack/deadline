@@ -1,261 +1,559 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Супермаркеты Т-Банка MVP</title>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f6f9;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Т-Банк · Супермаркеты | Умный заказ</title>
+  <!-- Подключаем шрифт, похожий на фирменный стиль Т-Банка -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-header {
-  background: #ffd400;
-  padding: 15px;
-  font-size: 20px;
-  font-weight: bold;
-}
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 16px;
+    }
 
-.container {
-  padding: 20px;
-}
+    /* Симуляция мобильного экрана */
+    .phone-frame {
+      max-width: 390px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 44px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+      height: 780px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
 
-h2 {
-  margin-top: 30px;
-}
+    .app-screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
 
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
-}
+    .app-screen::-webkit-scrollbar {
+      width: 0;
+    }
 
-.card {
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+    /* Шапка */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-badge {
+      background: #000;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    }
+    .header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: -0.3px;
+    }
+    .header i {
+      font-size: 20px;
+      color: #555;
+      background: #f0f0f0;
+      padding: 8px;
+      border-radius: 50%;
+    }
 
-button {
-  background: black;
-  color: white;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 5px;
-}
+    /* Финансовый ассистент - карточка бюджета */
+    .budget-card {
+      background: linear-gradient(105deg, #1f1f1f 0%, #2d2d2d 100%);
+      border-radius: 24px;
+      padding: 16px 18px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+    .budget-info h3 {
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+    .budget-amount {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .budget-bar {
+      background: rgba(255,255,255,0.2);
+      height: 6px;
+      border-radius: 10px;
+      width: 80px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .budget-fill {
+      background: #f5e56c;
+      width: 65%;
+      height: 100%;
+      border-radius: 10px;
+    }
+    .budget-icon {
+      font-size: 28px;
+      background: rgba(255,255,255,0.15);
+      padding: 10px;
+      border-radius: 50%;
+    }
 
-button.secondary {
-  background: #ddd;
-  color: black;
-}
+    /* Секция: Умная корзина (предиктивный повтор) */
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .section-title h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .badge {
+      background: #ffecb3;
+      color: #5d3c00;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.3px;
+    }
+    .smart-cart {
+      background: #f9f9fb;
+      border-radius: 20px;
+      padding: 14px;
+      border: 1px solid #eee;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #efefef;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .item-icon {
+      font-size: 22px;
+      width: 36px;
+      text-align: center;
+    }
+    .item-details {
+      flex: 1;
+    }
+    .item-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: #222;
+    }
+    .item-meta {
+      font-size: 12px;
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .repeat-badge {
+      background: #e8f0fe;
+      color: #174ea6;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .price {
+      font-weight: 700;
+      color: #111;
+    }
+    .add-btn {
+      background: #fff;
+      border: 1.5px solid #ddd;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .add-btn:hover {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
 
-.cart {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 20px;
-}
+    /* События из календаря */
+    .event-suggestion {
+      background: #e6f7e6;
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 5px solid #2e7d32;
+    }
+    .event-icon {
+      font-size: 26px;
+      background: white;
+      border-radius: 12px;
+      padding: 6px;
+    }
+    .event-text {
+      flex:1;
+    }
+    .event-text strong {
+      font-size: 15px;
+      display: block;
+      color: #1b5e20;
+    }
+    .event-text span {
+      font-size: 12px;
+      color: #2e5e2e;
+    }
 
-input, select {
-  padding: 8px;
-  margin-bottom: 10px;
-  width: 100%;
-}
+    /* Мульти-корзина сравнение */
+    .multi-store {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid #e0e0e0;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .store-logos i {
+      font-size: 24px;
+      margin-right: 3px;
+      color: #444;
+    }
+    .multi-info {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .multi-save {
+      background: #000;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-.analytics {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 20px;
-}
-</style>
+    /* Кнопка главного действия */
+    .primary-order-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+      letter-spacing: -0.2px;
+    }
+    .primary-order-btn i {
+      font-size: 18px;
+    }
+    .primary-order-btn:hover {
+      background: #222;
+    }
+
+    .tab-nav {
+      display: flex;
+      background: #f2f2f2;
+      border-radius: 20px;
+      padding: 3px;
+      margin: 4px 0 8px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 18px;
+      color: #555;
+      cursor: pointer;
+    }
+    .tab.active {
+      background: white;
+      color: #000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toast-message {
+      background: #000;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 100;
+      opacity: 0;
+      transition: 0.2s;
+      pointer-events: none;
+    }
+    .toast-message.show {
+      opacity: 1;
+      bottom: 30px;
+    }
+  </style>
 </head>
 <body>
+<div class="phone-frame">
+  <div class="app-screen" id="appScreen">
+    <!-- Хедер -->
+    <div class="header">
+      <div class="header-left">
+        <span class="logo-badge">Т</span>
+        <h2>Супермаркеты</h2>
+      </div>
+      <i class="fas fa-sliders-h"></i>
+    </div>
 
-<header>🛒 Супермаркеты Т-Банка — MVP</header>
+    <!-- Финансовый ассистент (экосистема Т-Банка) -->
+    <div class="budget-card">
+      <div class="budget-info">
+        <h3><i class="far fa-credit-card"></i> Бюджет на продукты</h3>
+        <div class="budget-amount">14 200 ₽</div>
+        <div class="budget-bar"><div class="budget-fill"></div></div>
+        <span style="font-size:11px; opacity:0.7;">Осталось 35% до конца месяца</span>
+      </div>
+      <div class="budget-icon">
+        <i class="fas fa-chart-pie"></i>
+      </div>
+    </div>
 
-<div class="container">
+    <!-- Табы -->
+    <div class="tab-nav">
+      <div class="tab active" id="tabSmart">🧠 Умный</div>
+      <div class="tab" id="tabRegular">🛒 Обычный</div>
+    </div>
 
-<select id="profileSelect"></select>
+    <!-- Контент Умного режима -->
+    <div id="smartContent">
+      <!-- Предиктивная корзина -->
+      <div class="section-title">
+        <h3><i class="fas fa-rotate-left" style="color:#f5b042;"></i> Повторить заказ <span class="badge">AI прогноз</span></h3>
+        <span style="font-size:12px; color:#666;">ср, 26 апр</span>
+      </div>
+      <div class="smart-cart">
+        <div class="cart-item">
+          <span class="item-icon">🥛</span>
+          <div class="item-details">
+            <div class="item-name">Молоко 3.2%</div>
+            <div class="item-meta"><span class="repeat-badge">каждые 4 дня</span> ВкусВилл</div>
+          </div>
+          <span class="price">89₽</span>
+          <div class="add-btn"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="cart-item">
+          <span class="item-icon">🍞</span>
+          <div class="item-details">
+            <div class="item-name">Хлеб бородинский</div>
+            <div class="item-meta"><span class="repeat-badge">закончится завтра</span> Ашан</div>
+          </div>
+          <span class="price">62₽</span>
+          <div class="add-btn"><i class="fas fa-plus"></i></div>
+        </div>
+        <div class="cart-item">
+          <span class="item-icon">🥑</span>
+          <div class="item-details">
+            <div class="item-name">Авокадо хасс</div>
+            <div class="item-meta">2 шт · Лента</div>
+          </div>
+          <span class="price">210₽</span>
+          <div class="add-btn"><i class="fas fa-plus"></i></div>
+        </div>
+      </div>
 
-<h2>Поиск</h2>
-<input type="text" id="search" placeholder="Поиск товаров...">
+      <!-- Событие из календаря (экосистема) -->
+      <div class="event-suggestion">
+        <div class="event-icon">🧺</div>
+        <div class="event-text">
+          <strong>Пикник в парке · завтра 14:00</strong>
+          <span>Добавить набор: снеки, вода, фрукты</span>
+        </div>
+        <i class="fas fa-chevron-right" style="color:#2e7d32;"></i>
+      </div>
 
-<h2>Каталог</h2>
-<div class="products" id="productList"></div>
+      <!-- Мульти-корзина и оптимизация -->
+      <div class="multi-store">
+        <div class="store-logos">
+          <i class="fas fa-store-alt"></i> <i class="fas fa-shopping-basket"></i>
+        </div>
+        <div class="multi-info">
+          Ваша корзина дешевле на <strong>8%</strong> при разделении
+        </div>
+        <span class="multi-save">-320₽</span>
+      </div>
+    </div>
 
-<h2>Сценарии жизни</h2>
-<button onclick="loadScenario('guests')">Гости через 2 часа</button>
-<button onclick="loadScenario('healthy')">ЗОЖ неделя</button>
+    <!-- Обычный режим (скрыт по умолчанию) -->
+    <div id="regularContent" class="hidden">
+      <div style="background:#f4f4f4; border-radius:20px; padding:16px; text-align:center; color:#555;">
+        <i class="fas fa-store" style="font-size:24px; margin-bottom:6px;"></i>
+        <p style="font-weight:500;">Каталоги магазинов</p>
+        <p style="font-size:12px;">Выберите магазин для ручного заказа</p>
+      </div>
+    </div>
 
-<h2>Умная автокорзина</h2>
-<button onclick="generateSmartCart()">Предсказать покупки</button>
+    <!-- Кнопка оформления (смарт-ордер) -->
+    <button class="primary-order-btn" id="smartOrderBtn">
+      <i class="fas fa-bolt"></i> Собрать умную корзину (4 товара)
+    </button>
 
-<h2>Корзина</h2>
-<div class="cart" id="cart"></div>
-
-<h2>Финансовая аналитика</h2>
-<div class="analytics" id="analytics"></div>
-
+    <!-- Тост -->
+    <div class="toast-message" id="toast">✓ Товары добавлены в корзину</div>
+  </div>
 </div>
 
 <script>
-// Данные
-const products = [
-  {id:1, name:"Молоко", price:90},
-  {id:2, name:"Хлеб", price:50},
-  {id:3, name:"Яйца", price:120},
-  {id:4, name:"Курица", price:350},
-  {id:5, name:"Яблоки", price:140},
-  {id:6, name:"Паста", price:80},
-  {id:7, name:"Сыр", price:200},
-  {id:8, name:"Вино", price:600}
-];
+  (function() {
+    // DOM элементы
+    const tabSmart = document.getElementById('tabSmart');
+    const tabRegular = document.getElementById('tabRegular');
+    const smartContent = document.getElementById('smartContent');
+    const regularContent = document.getElementById('regularContent');
+    const smartOrderBtn = document.getElementById('smartOrderBtn');
+    const toast = document.getElementById('toast');
+    const addButtons = document.querySelectorAll('.add-btn');
 
-const scenarios = {
-  guests: [1,2,7,8],
-  healthy: [1,3,5,4]
-};
-
-let profiles = JSON.parse(localStorage.getItem("profiles")) || {
-  "Основной": {cart:[], budget:5000, history:[]},
-  "Семья": {cart:[], budget:10000, history:[]}
-};
-
-let currentProfile = "Основной";
-
-const profileSelect = document.getElementById("profileSelect");
-const productList = document.getElementById("productList");
-const cartDiv = document.getElementById("cart");
-const analyticsDiv = document.getElementById("analytics");
-
-// Профили
-function renderProfiles(){
-  profileSelect.innerHTML="";
-  Object.keys(profiles).forEach(name=>{
-    const option=document.createElement("option");
-    option.value=name;
-    option.textContent=name;
-    profileSelect.appendChild(option);
-  });
-  profileSelect.value=currentProfile;
-}
-
-profileSelect.onchange=function(){
-  currentProfile=this.value;
-  renderCart();
-  renderAnalytics();
-}
-
-// Каталог
-function renderProducts(filter=""){
-  productList.innerHTML="";
-  products
-    .filter(p=>p.name.toLowerCase().includes(filter.toLowerCase()))
-    .forEach(product=>{
-      const div=document.createElement("div");
-      div.className="card";
-      div.innerHTML=`
-        <strong>${product.name}</strong><br>
-        ${product.price} ₽<br>
-        <button onclick="addToCart(${product.id})">Добавить</button>
-      `;
-      productList.appendChild(div);
+    // Переключение табов
+    tabSmart.addEventListener('click', () => {
+      tabSmart.classList.add('active');
+      tabRegular.classList.remove('active');
+      smartContent.classList.remove('hidden');
+      regularContent.classList.add('hidden');
+      smartOrderBtn.style.display = 'flex';
     });
-}
 
-document.getElementById("search").oninput=function(){
-  renderProducts(this.value);
-}
+    tabRegular.addEventListener('click', () => {
+      tabRegular.classList.add('active');
+      tabSmart.classList.remove('active');
+      regularContent.classList.remove('hidden');
+      smartContent.classList.add('hidden');
+      smartOrderBtn.style.display = 'none';
+    });
 
-// Корзина
-function addToCart(id){
-  profiles[currentProfile].cart.push(id);
-  save();
-  renderCart();
-  renderAnalytics();
-}
+    // Функция показа тоста
+    function showToast(text) {
+      toast.textContent = text || '✓ Обновлено';
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    }
 
-function renderCart(){
-  const cart=profiles[currentProfile].cart;
-  cartDiv.innerHTML="";
-  let total=0;
-  cart.forEach(id=>{
-    const product=products.find(p=>p.id===id);
-    total+=product.price;
-    cartDiv.innerHTML+=`${product.name} - ${product.price} ₽<br>`;
-  });
-  cartDiv.innerHTML+=`<hr><strong>Итого: ${total} ₽</strong><br>
-  <button onclick="checkout()">Оформить заказ</button>`;
-}
+    // Обработка кнопок "+" в предиктивной корзине
+    addButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // меняем иконку временно
+        const icon = btn.querySelector('i');
+        icon.className = 'fas fa-check';
+        btn.style.background = '#000';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#000';
+        showToast('Добавлено в умную корзину');
+        setTimeout(() => {
+          icon.className = 'fas fa-plus';
+          btn.style.background = '#fff';
+          btn.style.color = '#333';
+          btn.style.borderColor = '#ddd';
+        }, 1200);
+      });
+    });
 
-// Оформление
-function checkout(){
-  profiles[currentProfile].history.push(...profiles[currentProfile].cart);
-  profiles[currentProfile].cart=[];
-  save();
-  renderCart();
-  renderAnalytics();
-  alert("Заказ оформлен!");
-}
+    // Основная кнопка "Собрать умную корзину"
+    smartOrderBtn.addEventListener('click', () => {
+      showToast('🧠 Корзина собрана: экономия 320₽');
+      // Дополнительная анимация или логика
+      smartOrderBtn.innerHTML = '<i class="fas fa-check-circle"></i> Готово · доставка через 45 мин';
+      setTimeout(() => {
+        smartOrderBtn.innerHTML = '<i class="fas fa-bolt"></i> Собрать умную корзину (4 товара)';
+      }, 2500);
+    });
 
-// Умная автокорзина (простая логика: популярные покупки)
-function generateSmartCart(){
-  const history=profiles[currentProfile].history;
-  const freq={};
-  history.forEach(id=>freq[id]=(freq[id]||0)+1);
-  const sorted=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]);
-  sorted.slice(0,3).forEach(id=>{
-    profiles[currentProfile].cart.push(Number(id));
-  });
-  save();
-  renderCart();
-}
+    // Обработка клика по событию пикника (демо)
+    const eventSuggestion = document.querySelector('.event-suggestion');
+    if (eventSuggestion) {
+      eventSuggestion.addEventListener('click', () => {
+        showToast('🎉 Набор для пикника добавлен!');
+      });
+    }
 
-// Сценарии
-function loadScenario(name){
-  scenarios[name].forEach(id=>{
-    profiles[currentProfile].cart.push(id);
-  });
-  save();
-  renderCart();
-}
+    // Мульти-корзина клик
+    const multiStore = document.querySelector('.multi-store');
+    if (multiStore) {
+      multiStore.addEventListener('click', () => {
+        showToast('🔍 Оптимальный набор из 2 магазинов');
+      });
+    }
 
-// Аналитика
-function renderAnalytics(){
-  const history=profiles[currentProfile].history;
-  let total=0;
-  history.forEach(id=>{
-    total+=products.find(p=>p.id===id).price;
-  });
-
-  const budget=profiles[currentProfile].budget;
-  const percent=Math.round((total/budget)*100);
-
-  analyticsDiv.innerHTML=`
-    Потрачено в этом профиле: <strong>${total} ₽</strong><br>
-    Бюджет: ${budget} ₽<br>
-    Использовано: ${percent}%<br>
-    ${percent>80?"⚠ Вы приближаетесь к лимиту бюджета":""}
-  `;
-}
-
-// LocalStorage
-function save(){
-  localStorage.setItem("profiles", JSON.stringify(profiles));
-}
-
-// Инициализация
-renderProfiles();
-renderProducts();
-renderCart();
-renderAnalytics();
-
+    console.log('MVP Т-Банк Супермаркеты: предиктивная корзина + события + бюджет активированы');
+  })();
 </script>
 </body>
 </html>
