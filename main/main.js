@@ -31,7 +31,7 @@ function initBudgetSection() {
                     <div class="budget-empty-icon">📝</div>
                     <h3>Бюджет не настроен</h3>
                     <p>Спланируйте доходы и расходы, чтобы контролировать финансы</p>
-                    <button class="budget-empty-btn" onclick="window.location.href='form.html'">
+                    <button class="budget-empty-btn" onclick="window.location.href='../forma/forma.html'">
                         Создать бюджет
                     </button>
                 </div>
@@ -74,7 +74,7 @@ function initBudgetSection() {
                         ${renderCategories(planData.amounts)}
                     </div>
                     
-                    <button class="budget-edit-btn" onclick="window.location.href='form.html'">
+                    <button class="budget-edit-btn" onclick="window.location.href='../forma/forma.html'">
                         ✏️ Редактировать бюджет
                     </button>
                 </div>
