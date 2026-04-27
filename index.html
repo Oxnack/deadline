@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Супермаркеты Т-Банка MVP</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f9;
+}
+
+header {
+  background: #ffd400;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+button.secondary {
+  background: #ddd;
+  color: black;
+}
+
+.cart {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+input, select {
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.analytics {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<header>🛒 Супермаркеты Т-Банка — MVP</header>
+
+<div class="container">
+
+<select id="profileSelect"></select>
+
+<h2>Поиск</h2>
+<input type="text" id="search" placeholder="Поиск товаров...">
+
+<h2>Каталог</h2>
+<div class="products" id="productList"></div>
+
+<h2>Сценарии жизни</h2>
+<button onclick="loadScenario('guests')">Гости через 2 часа</button>
+<button onclick="loadScenario('healthy')">ЗОЖ неделя</button>
+
+<h2>Умная автокорзина</h2>
+<button onclick="generateSmartCart()">Предсказать покупки</button>
+
+<h2>Корзина</h2>
+<div class="cart" id="cart"></div>
+
+<h2>Финансовая аналитика</h2>
+<div class="analytics" id="analytics"></div>
+
+</div>
+
+<script>
+// Данные
+const products = [
+  {id:1, name:"Молоко", price:90},
+  {id:2, name:"Хлеб", price:50},
+  {id:3, name:"Яйца", price:120},
+  {id:4, name:"Курица", price:350},
+  {id:5, name:"Яблоки", price:140},
+  {id:6, name:"Паста", price:80},
+  {id:7, name:"Сыр", price:200},
+  {id:8, name:"Вино", price:600}
+];
+
+const scenarios = {
+  guests: [1,2,7,8],
+  healthy: [1,3,5,4]
+};
+
+let profiles = JSON.parse(localStorage.getItem("profiles")) || {
+  "Основной": {cart:[], budget:5000, history:[]},
+  "Семья": {cart:[], budget:10000, history:[]}
+};
+
+let currentProfile = "Основной";
+
+const profileSelect = document.getElementById("profileSelect");
+const productList = document.getElementById("productList");
+const cartDiv = document.getElementById("cart");
+const analyticsDiv = document.getElementById("analytics");
+
+// Профили
+function renderProfiles(){
+  profileSelect.innerHTML="";
+  Object.keys(profiles).forEach(name=>{
+    const option=document.createElement("option");
+    option.value=name;
+    option.textContent=name;
+    profileSelect.appendChild(option);
+  });
+  profileSelect.value=currentProfile;
+}
+
+profileSelect.onchange=function(){
+  currentProfile=this.value;
+  renderCart();
+  renderAnalytics();
+}
+
+// Каталог
+function renderProducts(filter=""){
+  productList.innerHTML="";
+  products
+    .filter(p=>p.name.toLowerCase().includes(filter.toLowerCase()))
+    .forEach(product=>{
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`
+        <strong>${product.name}</strong><br>
+        ${product.price} ₽<br>
+        <button onclick="addToCart(${product.id})">Добавить</button>
+      `;
+      productList.appendChild(div);
+    });
+}
+
+document.getElementById("search").oninput=function(){
+  renderProducts(this.value);
+}
+
+// Корзина
+function addToCart(id){
+  profiles[currentProfile].cart.push(id);
+  save();
+  renderCart();
+  renderAnalytics();
+}
+
+function renderCart(){
+  const cart=profiles[currentProfile].cart;
+  cartDiv.innerHTML="";
+  let total=0;
+  cart.forEach(id=>{
+    const product=products.find(p=>p.id===id);
+    total+=product.price;
+    cartDiv.innerHTML+=`${product.name} - ${product.price} ₽<br>`;
+  });
+  cartDiv.innerHTML+=`<hr><strong>Итого: ${total} ₽</strong><br>
+  <button onclick="checkout()">Оформить заказ</button>`;
+}
+
+// Оформление
+function checkout(){
+  profiles[currentProfile].history.push(...profiles[currentProfile].cart);
+  profiles[currentProfile].cart=[];
+  save();
+  renderCart();
+  renderAnalytics();
+  alert("Заказ оформлен!");
+}
+
+// Умная автокорзина (простая логика: популярные покупки)
+function generateSmartCart(){
+  const history=profiles[currentProfile].history;
+  const freq={};
+  history.forEach(id=>freq[id]=(freq[id]||0)+1);
+  const sorted=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]);
+  sorted.slice(0,3).forEach(id=>{
+    profiles[currentProfile].cart.push(Number(id));
+  });
+  save();
+  renderCart();
+}
+
+// Сценарии
+function loadScenario(name){
+  scenarios[name].forEach(id=>{
+    profiles[currentProfile].cart.push(id);
+  });
+  save();
+  renderCart();
+}
+
+// Аналитика
+function renderAnalytics(){
+  const history=profiles[currentProfile].history;
+  let total=0;
+  history.forEach(id=>{
+    total+=products.find(p=>p.id===id).price;
+  });
+
+  const budget=profiles[currentProfile].budget;
+  const percent=Math.round((total/budget)*100);
+
+  analyticsDiv.innerHTML=`
+    Потрачено в этом профиле: <strong>${total} ₽</strong><br>
+    Бюджет: ${budget} ₽<br>
+    Использовано: ${percent}%<br>
+    ${percent>80?"⚠ Вы приближаетесь к лимиту бюджета":""}
+  `;
+}
+
+// LocalStorage
+function save(){
+  localStorage.setItem("profiles", JSON.stringify(profiles));
+}
+
+// Инициализация
+renderProfiles();
+renderProducts();
+renderCart();
+renderAnalytics();
+
+</script>
+</body>
+</html>
