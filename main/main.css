@@ -197,3 +197,9 @@ body { background-color: var(--bg-main); color: var(--text-primary); padding-bot
 .pillow-summary-progress { margin-top: 16px; }
 .pillow-summary-progress-bar { height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; }
 .pillow-summary-progress-fill { height: 100%; background: #4CAF50; width: 0%; transition: width 0.3s ease; }
+/* Tegs */
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -8,9 +8,9 @@ function initBudgetSection() {
     const toggleBtn = document.getElementById('budget-toggle-btn');
     const budgetContent = document.getElementById('budget-content');
     const toggleIcon = toggleBtn.querySelector('.toggle-icon');
-   
+    
     let isOpen = false;
-   
+    
     toggleBtn.addEventListener('click', () => {
         isOpen = !isOpen;
         if (isOpen) {
@@ -22,14 +22,14 @@ function initBudgetSection() {
             toggleIcon.classList.remove('active');
         }
     });
-   
+    
     function renderBudgetContent() {
         const savedData = sessionStorage.getItem('myBudgetPlan');
-       
+        
         if (!savedData) {
             budgetContent.innerHTML = `
                 <div class="budget-empty">
-                    <div class="budget-empty-icon"></div>
+                    <div class="budget-empty-icon">📝</div>
                     <h3>Бюджет не настроен</h3>
                     <p>Спланируйте доходы и расходы</p>
                     <button class="budget-empty-btn" onclick="window.location.href='../forma/forma.html'">
@@ -41,15 +41,22 @@ function initBudgetSection() {
             const planData = JSON.parse(savedData);
             let totalIncome = 0;
             Object.values(planData.incomes).forEach(val => totalIncome += Number(val) || 0);
-           
+            
             let totalExpenses = 0;
             Object.values(planData.amounts).forEach(val => totalExpenses += Number(val) || 0);
-           
+            
             const savings = totalIncome - totalExpenses;
             const savingsPercent = totalIncome > 0 ? Math.round((savings / totalIncome) * 100) : 0;
-           
+            
             budgetContent.innerHTML = `
+                <!-- Сетка категорий (блоки) -->
+                <div class="budget-categories-grid">
+                    ${renderCategoryBlocks(planData.amounts)}
+                </div>
+                
+                <!-- Итоговая сводка (снизу) -->
                 <div class="budget-summary">
+                    <div class="budget-summary-title">📊 Итого</div>
                     <div class="budget-row">
                         <span class="budget-label">Доход</span>
                         <span class="budget-value income">${totalIncome.toLocaleString('ru-RU')} ₽</span>
@@ -62,38 +69,34 @@ function initBudgetSection() {
                         <span class="budget-label">Остаток (${savingsPercent}%)</span>
                         <span class="budget-value savings">${savings.toLocaleString('ru-RU')} ₽</span>
                     </div>
-                   
-                    <div class="budget-categories">
-                        <div class="budget-label" style="margin-bottom: 10px;">По категориям:</div>
-                        ${renderCategories(planData.amounts)}
-                    </div>
-                   
-                    <button class="budget-edit-btn" onclick="window.location.href='../forma/forma.html'">
-                        ✏️ Редактировать бюджет
-                    </button>
                 </div>
+                
+                <button class="budget-edit-btn" onclick="window.location.href='../forma/forma.html'">
+                    ✏️ Редактировать бюджет
+                </button>
             `;
         }
     }
-   
-    function renderCategories(amounts) {
+    
+    // Рендеринг блоков категорий (включая фин. подушку)
+    function renderCategoryBlocks(amounts) {
         const categoryNames = {
             'res-food': '🛒 Продукты',
-            'res-transport': ' Транспорт',
-            'res-home': ' Жилье',
+            'res-transport': '🚗 Транспорт',
+            'res-home': '🏠 Жилье',
             'res-fun': '🎬 Развлечения',
             'res-pillow': '🛡️ Фин. подушка'
         };
-       
+        
         let html = '';
         for (const [key, value] of Object.entries(amounts)) {
             const name = categoryNames[key] || '📦 Другое';
             const amount = Number(value) || 0;
             if (amount > 0) {
                 html += `
-                    <div class="budget-cat-item">
-                        <span class="budget-cat-name">${name}</span>
-                        <span class="budget-value">${amount.toLocaleString('ru-RU')} ₽</span>
+                    <div class="budget-category-block">
+                        <span class="budget-cat-block-name">${name}</span>
+                        <span class="budget-cat-block-amount">${amount.toLocaleString('ru-RU')} ₽</span>
                     </div>
                 `;
             }
@@ -102,14 +105,12 @@ function initBudgetSection() {
     }
 }
 
-// Отображение прогресса подушки отдельно
+// Отображение прогресса подушки отдельно (карточка над бюджетом)
 function renderPillowProgress() {
-    // Создаем контейнер, если его нет (для динамики)
     let container = document.getElementById('pillow-progress-container');
     if (!container) {
         container = document.createElement('div');
         container.id = 'pillow-progress-container';
-        // Вставляем перед секцией бюджета
         const budgetSection = document.querySelector('.budget-section');
         if(budgetSection) {
             budgetSection.parentNode.insertBefore(container, budgetSection);
@@ -121,15 +122,15 @@ function renderPillowProgress() {
         container.innerHTML = '';
         return;
     }
-   
+    
     const planData = JSON.parse(savedData);
     const pillowAmount = planData.amounts['res-pillow'];
-   
+    
     if (!pillowAmount || Number(pillowAmount) === 0) {
         container.innerHTML = '';
         return;
     }
-   
+    
     container.innerHTML = `
         <div class="pillow-summary-card">
             <div class="pillow-summary-header">
