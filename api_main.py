@@ -179,6 +179,7 @@ async def root():
         "endpoints": {
             "POST /api/v1/predict/category": "Определить сегмент пользователя",
             "GET /api/v1/products": "Получить карточки товаров (?category=family)",
+            "GET /api/v1/segment/stats": "Средние значения по сегменту (?category=family)",
         },
         "docs": "/docs"
     }
