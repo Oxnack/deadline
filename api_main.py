@@ -5,6 +5,7 @@ FastAPI сервис рекомендаций Супермаркетов Т-Ба
 """
 
 from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
 import numpy as np
@@ -13,6 +14,17 @@ import os
 from typing import Optional
 
 app = FastAPI(title="Супермаркеты Т-Банка API", version="1.0")
+
+# Список разрешенных источников (доменов)
+origins = ["*"]  # Звездочка позволяет запросы с любого адреса
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Разрешить все методы (GET, POST и т.д.)
+    allow_headers=["*"],  # Разрешить все заголовки
+)
 
 # ========== ЗАГРУЗКА МОДЕЛЕЙ ==========
 model_segment = joblib.load("models/segment_classifier.lgb")
