@@ -3,85 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace API</title>
+    <title>Т-Маркет Супермаркеты</title>
     <link rel="stylesheet" href="market.css">
 </head>
 <body>
-    <!-- ТЕХНИЧЕСКОЕ ОКНО -->
+    <!-- ТЕХНИЧЕСКОЕ ОКНО С ДАННЫМИ ДЛЯ МОДЕЛИ -->
     <div id="tech-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2>Настройка профиля</h2>
-            <div class="form-group">
-                <label>Возраст:</label>
-                <input type="number" id="user-age" value="25">
+            <h3>Параметры пользователя (API)</h3>
+            <div class="scroll-form">
+                <div class="form-grid">
+                    <label>Возраст: <input type="number" id="age" value="32"></label>
+                    <label>Доход: <input type="number" id="income_rub" value="95000"></label>
+                    <label>Средний чек: <input type="number" id="avg_ticket" value="1700"></label>
+                    <label>Транзакций: <input type="number" id="txn_count" value="18"></label>
+                    <label>Доставка (%): <input type="number" step="0.1" id="delivery_share" value="0.22"></label>
+                    <label>Выходные (%): <input type="number" step="0.1" id="weekend_share" value="0.55"></label>
+                    <!-- Остальные поля скрыты или дефолтны для удобства, но отправляются -->
+                </div>
+                <p class="hint">* В коде отправляются все 19 признаков</p>
             </div>
-            <div class="form-group">
-                <label>Пол:</label>
-                <select id="user-gender">
-                    <option value="male">Мужской</option>
-                    <option value="female">Женский</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Предпочтение (0-100):</label>
-                <input type="range" id="user-pref-score" value="50">
-            </div>
-            <button id="save-tech-data">Загрузить рекомендации</button>
+            <button id="predict-btn">Определить сегмент и войти</button>
         </div>
     </div>
 
     <div class="app-container" id="main-app" style="display: none;">
-        <!-- HEADER -->
+        <!-- HEADER (Обновленная панель) -->
         <header class="app-header">
-            <div class="header-top">
-                <img src="images/back_arrow.jpg" class="icon-btn">
-                <div class="address-selector">
-                    <span class="small-text">пр-кт Ленина, 192</span>
+            <div class="header-main">
+                <img src="images/back_arrow.jpg" class="nav-icon">
+                <div class="address-box">
+                    <span class="addr-title">Супермаркет</span>
+                    <span class="addr-current">пр-кт Ленина, 192 ▼</span>
                 </div>
-                <img src="images/icon_orders.jpg" class="icon-btn">
+                <img src="images/icon_orders.svg" class="nav-icon">
             </div>
-            <div class="search-box">
-                <div class="search-bar">
-                    <img src="images/search.jpg" class="search-icon">
-                    <input type="text" placeholder="Поиск по продуктам">
+            <div class="search-wrap">
+                <div class="search-input">
+                    <img src="images/icon_search.svg">
+                    <input type="text" placeholder="Поиск в Т-Маркете">
                 </div>
             </div>
         </header>
 
-        <!-- БЛОК СТАТИСТИКИ (СРЕДНИЕ ЗНАЧЕНИЯ) -->
-        <div id="category-stats" class="stats-bar">
-            <!-- Сюда придут данные из API -->
+        <!-- СРЕДНИЕ ЗНАЧЕНИЯ (API: segment/stats) -->
+        <div class="stats-scroll" id="stats-bar">
+            <!-- Сюда подгрузится статистика -->
         </div>
 
-        <!-- CONTENT -->
-        <main class="content">
-            <section class="feed-section">
-                <div class="section-header">
-                    <h2>Рекомендации:</h2>
-                </div>
-                <div class="product-grid" id="recommendations">
-                    <!-- Товары из API -->
-                </div>
-            </section>
+        <!-- КАТЕГОРИЯ И РЕКОМЕНДАЦИИ -->
+        <main class="main-content">
+            <div class="section-title">
+                <h2 id="segment-name">Загрузка...</h2>
+                <span class="confidence" id="confidence-val"></span>
+            </div>
+            
+            <div class="product-grid" id="product-list">
+                <!-- Карточки товаров -->
+            </div>
         </main>
 
-        <!-- КОРЗИНА (ВИДЖЕТ) -->
-        <div id="cart-widget" class="cart-widget">
-            <div class="cart-info">
-                <div class="cart-icon-wrapper">
-                    <img src="images/nav_cart.jpg">
-                    <span id="cart-count" class="badge">0</span>
-                </div>
-                <span id="cart-total">0 ₽</span>
-            </div>
-            <button class="checkout-btn">В корзину</button>
-        </div>
-
-        <!-- NAVIGATION -->
+        <!-- НИЖНЯЯ ПАНЕЛЬ -->
         <nav class="bottom-nav">
-            <div class="nav-item active"><img src="images/nav_1.jpg"><span>Главная</span></div>
-            <div class="nav-item"><img src="images/nav_search.jpg"><span>Каталог</span></div>
-            <div class="nav-item"><img src="images/nav_3.jpg"><span>Профиль</span></div>
+            <div class="nav-tab active">
+                <img src="images/nav_main.svg">
+                <span>Главная</span>
+            </div>
+            <div class="nav-tab">
+                <img src="images/nav_search.jpg">
+                <span>Каталог</span>
+            </div>
+            <div class="nav-tab cart-trigger">
+                <div class="cart-counter" id="cart-count">0</div>
+                <img src="images/nav_cart.jpg">
+                <span id="cart-total-price">0 ₽</span>
+            </div>
         </nav>
     </div>
 

@@ -1,88 +1,87 @@
 const API_BASE = 'https://api.ddln.oxnack.com';
+let currentCart = [];
 
-let cart = [];
-
-// 1. РАБОТА С ТЕХНИЧЕСКИМ ОКНОМ И API
-document.getElementById('save-tech-data').addEventListener('click', async () => {
-    const userData = {
-        age: document.getElementById('user-age').value,
-        gender: document.getElementById('user-gender').value,
-        pref_score: document.getElementById('user-pref-score').value
+document.getElementById('predict-btn').addEventListener('click', async () => {
+    // Собираем все 19 признаков (для примера берем часть из инпутов, остальные дефолт)
+    const features = {
+        age: parseInt(document.getElementById('age').value),
+        gender: 0,
+        city_id: 0,
+        income_rub: parseInt(document.getElementById('income_rub').value),
+        family_code: 2,
+        txn_count: parseInt(document.getElementById('txn_count').value),
+        avg_ticket: parseFloat(document.getElementById('avg_ticket').value),
+        total_spend: 30600.0,
+        std_ticket: 600.0,
+        weekend_share: parseFloat(document.getElementById('weekend_share').value),
+        evening_share: 0.45,
+        delivery_share: parseFloat(document.getElementById('delivery_share').value),
+        merchant_0_share: 0.15,
+        merchant_1_share: 0.40,
+        merchant_2_share: 0.30,
+        merchant_3_share: 0.15,
+        days_active: 12,
+        hour_mode: 18,
+        txn_per_week: 2.1
     };
 
     try {
-        // Показываем лоадер (опционально)
-        document.getElementById('tech-modal').style.display = 'none';
-        document.getElementById('main-app').style.display = 'flex';
-
-        // Шаг 1: Получаем категорию и средние значения
-        const categoryRes = await fetch(`${API_BASE}/predict_category`, {
+        // 1. Предсказание категории
+        const predRes = await fetch(`${API_BASE}/api/v1/predict/category`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userData)
+            body: JSON.stringify(features)
         });
-        const categoryData = await categoryRes.json();
-        
-        renderStats(categoryData.averages); // Отображаем средние значения
+        const predData = await predRes.json();
+        const segment = predData.user_segment;
 
-        // Шаг 2: Получаем ленту рекомендаций
-        const feedRes = await fetch(`${API_BASE}/get_recommendations?category=${categoryData.category_id}`);
-        const products = await feedRes.json();
-        
-        renderRecommendations(products);
+        // Переключаем экран
+        document.getElementById('tech-modal').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        document.getElementById('segment-name').innerText = `Для вас: ${segment}`;
+        document.getElementById('confidence-val').innerText = `${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
-    } catch (error) {
-        console.error("Ошибка API:", error);
-        alert("Не удалось загрузить данные с сервера.");
+        // 2. Получаем статистику сегмента
+        const statsRes = await fetch(`${API_BASE}/api/v1/segment/stats?category=${segment}`);
+        const statsData = await statsRes.json();
+        renderStats(statsData.stats);
+
+        // 3. Получаем товары
+        const prodRes = await fetch(`${API_BASE}/api/v1/products?category=${segment}`);
+        const prodData = await prodRes.json();
+        renderProducts(prodData.products);
+
+    } catch (e) {
+        alert("Ошибка связи с API");
+        console.error(e);
     }
 });
 
-// 2. ОТОБРАЖЕНИЕ СРЕДНИХ ЗНАЧЕНИЙ
 function renderStats(stats) {
-    const container = document.getElementById('category-stats');
-    // Предполагаем что stats это объект {avg_price: 250, avg_weight: "500г"}
-    container.innerHTML = `
-        <div class="stat-item">Средний чек: <b>${stats.avg_price} ₽</b></div>
-        <div class="stat-item">Частый вес: <b>${stats.avg_weight}</b></div>
-        <div class="stat-item">Категория: <b>${stats.name}</b></div>
+    const bar = document.getElementById('stats-bar');
+    bar.innerHTML = `
+        <div class="stat-card"><span class="stat-label">Средний чек</span><span class="stat-value">${stats.avg_ticket} ₽</span></div>
+        <div class="stat-card"><span class="stat-label">Трат в месяц</span><span class="stat-value">${stats.avg_grocery_spend} ₽</span></div>
+        <div class="stat-card"><span class="stat-label">Магазин</span><span class="stat-value">${stats.popular_merchant}</span></div>
+        <div class="stat-card"><span class="stat-label">Доставка</span><span class="stat-value">${(stats.avg_delivery_share * 100).toFixed(0)}%</span></div>
     `;
 }
 
-// 3. ОТОБРАЖЕНИЕ ТОВАРОВ
-function renderRecommendations(items) {
-    const container = document.getElementById('recommendations');
-    container.innerHTML = items.map(item => `
+function renderProducts(products) {
+    const list = document.getElementById('product-list');
+    list.innerHTML = products.map(p => `
         <div class="product-card">
-            <div class="img-wrapper">
-                <img src="images/${item.img || 'default.jpg'}">
-            </div>
-            <div class="price">${item.price} ₽</div>
-            <div class="title">${item.title}</div>
-            <div class="card-footer">
-                <div class="weight">${item.weight}</div>
-                <div class="add-btn" onclick="addToCart(${item.id}, '${item.title}', ${item.price})">+</div>
-            </div>
+            <img src="images/${p.image}" class="p-img" onerror="this.src='images/default.jpg'">
+            <div class="p-price">${p.price} ₽</div>
+            <div class="p-name">${p.name}</div>
+            <button class="p-btn" onclick="addToCart('${p.name}', ${p.price})">Добавить</button>
         </div>
     `).join('');
 }
 
-// 4. ЛОГИКА КОРЗИНЫ
-window.addToCart = function(id, title, price) {
-    cart.push({id, title, price});
-    updateCartWidget();
-};
-
-function updateCartWidget() {
-    const widget = document.getElementById('cart-widget');
-    const countEl = document.getElementById('cart-count');
-    const totalEl = document.getElementById('cart-total');
-
-    if (cart.length > 0) {
-        widget.style.display = 'flex';
-        countEl.innerText = cart.length;
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        totalEl.innerText = `${total} ₽`;
-    } else {
-        widget.style.display = 'none';
-    }
+function addToCart(name, price) {
+    currentCart.push({ name, price });
+    document.getElementById('cart-count').innerText = currentCart.length;
+    const total = currentCart.reduce((sum, item) => sum + item.price, 0);
+    document.getElementById('cart-total-price').innerText = `${total} ₽`;
 }
