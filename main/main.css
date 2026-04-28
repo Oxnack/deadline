@@ -80,7 +80,7 @@ body { background-color: var(--bg-main); color: var(--text-primary); padding-bot
 
 /* Бюджет (Раскрывающийся) */
 .budget-section { margin-bottom: 20px; }
-.budget-toggle { background: white; border-radius: var(--radius-lg); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s; }
+.budget-toggle { background: white; border-radius: var(--radius-lg); padding: 16px 20px; display: flex; justify-content: center; align-items: center;flex-direction: column; cursor: pointer; transition: background 0.2s; }
 .budget-toggle:hover { background: #f9f9f9; }
 .toggle-text { font-weight: 600; font-size: 15px; }
 .toggle-icon { font-size: 12px; color: var(--text-secondary); transition: transform 0.3s; }
