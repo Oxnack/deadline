@@ -170,6 +170,73 @@ async def get_products(category: Optional[str] = Query(None, description="Сег
         "products": products
     }
 
+# ========== ХАРДКОД СРЕДНИХ ЗНАЧЕНИЙ ПО СЕГМЕНТАМ ==========
+SEGMENT_STATS = {
+    "family": {
+        "avg_grocery_spend": 18500,
+        "avg_ticket": 2100,
+        "avg_txn_per_month": 10,
+        "avg_weekend_share": 0.60,
+        "avg_delivery_share": 0.25,
+        "popular_merchant": "Пятёрочка",
+        "description": "Семьи с детьми — большая корзина, выходные, стабильность"
+    },
+    "budget": {
+        "avg_grocery_spend": 7200,
+        "avg_ticket": 550,
+        "avg_txn_per_month": 14,
+        "avg_weekend_share": 0.40,
+        "avg_delivery_share": 0.10,
+        "popular_merchant": "Чижик",
+        "description": "Экономные — частые, но мелкие покупки, дискаунтеры"
+    },
+    "gourmet_solo": {
+        "avg_grocery_spend": 15200,
+        "avg_ticket": 2300,
+        "avg_txn_per_month": 7,
+        "avg_weekend_share": 0.45,
+        "avg_delivery_share": 0.40,
+        "popular_merchant": "Азбука вкуса",
+        "description": "Гурманы-одиночки — премиум, доставка, новинки"
+    },
+    "busy_pro": {
+        "avg_grocery_spend": 12500,
+        "avg_ticket": 2800,
+        "avg_txn_per_month": 5,
+        "avg_weekend_share": 0.30,
+        "avg_delivery_share": 0.55,
+        "popular_merchant": "Самокат",
+        "description": "Занятые профи — большие чеки, вечер, быстрая доставка"
+    },
+    "traditional": {
+        "avg_grocery_spend": 9800,
+        "avg_ticket": 870,
+        "avg_txn_per_month": 12,
+        "avg_weekend_share": 0.50,
+        "avg_delivery_share": 0.05,
+        "popular_merchant": "Магнит",
+        "description": "Консерваторы — офлайн, привычные магазины, средний чек"
+    }
+}
+
+
+# ========== ЭНДПОИНТ 3: СРЕДНИЕ ЗНАЧЕНИЯ ПО КАТЕГОРИИ ==========
+@app.get("/api/v1/segment/stats")
+async def get_segment_stats(category: str = Query(..., description="Сегмент: family, budget, gourmet_solo, busy_pro, traditional")):
+    """
+    Возвращает средние значения по сегменту (пока хардкод).
+    """
+    
+    if category not in SEGMENT_STATS:
+        return {
+            "error": f"Неизвестная категория. Допустимые: {', '.join(SEGMENT_STATS.keys())}"
+        }
+    
+    return {
+        "segment": category,
+        "stats": SEGMENT_STATS[category]
+    }
+
 
 # ========== КОРЕНЬ ==========
 @app.get("/")
