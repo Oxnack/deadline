@@ -1,6 +1,15 @@
 const API_BASE = 'https://api.ddln.oxnack.com';
 let currentCart = [];
 
+// Словарь категорий с описанием
+const categoryDescriptions = {
+    'gourmet_solo': 'богатый(ая) одиночка',
+    'family': 'семейный',
+    'budget': 'бюджетный (бедный)',
+    'busy_pro': 'занятой богатый, еда в дорогу',
+    'traditional': 'обычный'
+};
+
 
 // Получить баланс из sessionStorage
 function getBalance() {
@@ -81,7 +90,8 @@ document.getElementById('predict-btn').addEventListener('click', async () => {
         // Переключаем экран
         document.getElementById('tech-modal').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
-        document.getElementById('segment-name').innerText = `Ваша категория (по всем транзакциям, в том числе оффлайн покупки, любые действия): ${segment}`;
+        const segmentDesc = categoryDescriptions[segment] || segment;
+        document.getElementById('segment-name').innerText = `Ваша категория (учитывая все транзакции, в том числе оффлайн покупки, любые действия): ${segment} (${segmentDesc})`;
         document.getElementById('confidence-val').innerText = `${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
         // 2. Получаем статистику сегмента
