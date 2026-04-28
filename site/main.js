@@ -5,3 +5,4 @@ document.querySelectorAll('.nav-item').forEach(item => {
         this.classList.add('active');
     });
 });
+

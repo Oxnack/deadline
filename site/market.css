@@ -96,3 +96,29 @@ button#save-tech-data {
     color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px;
 }
 .cart-icon-wrapper { position: relative; }
+.balance-section {
+    padding: 0 16px;
+    margin: 12px 0 16px 0;
+}
+
+.balance-card {
+    background-color: #f2f2f7;
+    border-radius: 14px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.balance-label {
+    font-size: 15px;
+    color: #8e8e93;
+    font-weight: 500;
+}
+
+.balance-amount {
+    font-size: 19px;
+    font-weight: 700;
+    color: #34C759; /* зелёный цвет баланса */
+}
