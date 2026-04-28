@@ -1,7 +1,7 @@
 :root { --t-blue: #4a8df8; --t-yellow: #ffdd2d; --bg: #f2f3f5; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
 
-body { background: #333; display: flex; justify-content: center; }
+body { display: flex; justify-content: center; }
 .app-container { width: 430px; background: #fff; min-height: 100vh; position: relative; }
 
 /* Modal */
@@ -47,3 +47,31 @@ body { background: #333; display: flex; justify-content: center; }
 .nav-tab.active { color: var(--t-blue); }
 .nav-tab img { width: 24px; margin-bottom: 4px; }
 .cart-counter { position: absolute; top: -5px; right: 20%; background: #eb3b5a; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; border: 2px solid #fff; }
+
+
+.balance-section {
+    padding: 0 16px;
+    margin: 12px 0 16px 0;
+}
+
+.balance-card {
+    background-color: #f2f2f7;
+    border-radius: 14px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.balance-label {
+    font-size: 15px;
+    color: #8e8e93;
+    font-weight: 500;
+}
+
+.balance-amount {
+    font-size: 19px;
+    font-weight: 700;
+    color: #34C759; /* зелёный цвет баланса */
+}

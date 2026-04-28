@@ -31,10 +31,11 @@
         <!-- HEADER (Обновленная панель) -->
         <header class="app-header">
             <div class="header-main">
-                <img src="images/back_arrow.jpg" class="nav-icon">
+                 <a href="../site/main.html" >
+                <img src="images/back_arrow.jpg" class="nav-icon"></a>
                 <div class="address-box">
                     <span class="addr-title">Супермаркет</span>
-                    <span class="addr-current">пр-кт Ленина, 192 ▼</span>
+                    <span class="addr-current">пр-кт Ленина, 192</span>
                 </div>
                 <img src="images/icon_orders.svg" class="nav-icon">
             </div>
@@ -46,6 +47,13 @@
             </div>
         </header>
 
+        <section class="balance-section">
+            <div class="balance-card">
+                <span class="balance-label">Баланс на еду</span>
+                <span class="balance-amount" id="food-balance" style="color: rgb(52, 199, 89);">30&nbsp;000 ₽</span>
+            </div>
+        </section>
+        
         <!-- СРЕДНИЕ ЗНАЧЕНИЯ (API: segment/stats) -->
         <div class="stats-scroll" id="stats-bar">
             <!-- Сюда подгрузится статистика -->

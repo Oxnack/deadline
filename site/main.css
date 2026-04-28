@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #1a1a1a; /* Цвет фона вокруг "телефона" */
+  /* Цвет фона вокруг "телефона" */
     display: flex;
     justify-content: center;
     align-items: flex-start;

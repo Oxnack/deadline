@@ -1,108 +1,114 @@
 document.addEventListener('DOMContentLoaded', () => {
     initBudgetSection();
-    renderPillowProgress();
+    // renderPillowProgress();
 });
 
 // Логика раскрывающегося бюджета
 function initBudgetSection() {
-    const toggleBtn = document.getElementById('budget-toggle-btn');
     const budgetContent = document.getElementById('budget-content');
-    const toggleIcon = toggleBtn.querySelector('.toggle-icon');
     
-    let isOpen = false;
+    // Сразу отображаем контент (без скрытия)
+    budgetContent.classList.add('open');
+    renderBudgetContent();
+    
+    // Кнопка toggle теперь только для сворачивания/разворачивания
+    const toggleBtn = document.getElementById('budget-toggle-btn');
+    const toggleIcon = toggleBtn.querySelector('.toggle-icon');
+    let isOpen = true;
     
     toggleBtn.addEventListener('click', () => {
         isOpen = !isOpen;
         if (isOpen) {
             budgetContent.classList.add('open');
             toggleIcon.classList.add('active');
-            renderBudgetContent();
+            renderBudgetContent(); // Обновляем при открытии
         } else {
             budgetContent.classList.remove('open');
             toggleIcon.classList.remove('active');
         }
     });
+}
+
+// Вынесите renderBudgetContent в отдельную функцию
+function renderBudgetContent() {
+    const budgetContent = document.getElementById('budget-content');
+    if (!budgetContent) return;
     
-    function renderBudgetContent() {
-        const savedData = sessionStorage.getItem('myBudgetPlan');
-        
-        if (!savedData) {
-            budgetContent.innerHTML = `
-                <div class="budget-empty">
-                    <div class="budget-empty-icon">📝</div>
-                    <h3>Бюджет не настроен</h3>
-                    <p>Спланируйте доходы и расходы</p>
-                    <button class="budget-empty-btn" onclick="window.location.href='../forma/forma.html'">
-                        Создать бюджет
-                    </button>
-                </div>
-            `;
-        } else {
-            const planData = JSON.parse(savedData);
-            let totalIncome = 0;
-            Object.values(planData.incomes).forEach(val => totalIncome += Number(val) || 0);
-            
-            let totalExpenses = 0;
-            Object.values(planData.amounts).forEach(val => totalExpenses += Number(val) || 0);
-            
-            const savings = totalIncome - totalExpenses;
-            const savingsPercent = totalIncome > 0 ? Math.round((savings / totalIncome) * 100) : 0;
-            
-            budgetContent.innerHTML = `
-                <!-- Сетка категорий (блоки) -->
-                <div class="budget-categories-grid">
-                    ${renderCategoryBlocks(planData.amounts)}
-                </div>
-                
-                <!-- Итоговая сводка (снизу) -->
-                <div class="budget-summary">
-                    <div class="budget-summary-title">📊 Итого</div>
-                    <div class="budget-row">
-                        <span class="budget-label">Доход</span>
-                        <span class="budget-value income">${totalIncome.toLocaleString('ru-RU')} ₽</span>
-                    </div>
-                    <div class="budget-row">
-                        <span class="budget-label">Расходы</span>
-                        <span class="budget-value expense">${totalExpenses.toLocaleString('ru-RU')} ₽</span>
-                    </div>
-                    <div class="budget-row">
-                        <span class="budget-label">Остаток (${savingsPercent}%)</span>
-                        <span class="budget-value savings">${savings.toLocaleString('ru-RU')} ₽</span>
-                    </div>
-                </div>
-                
-                <button class="budget-edit-btn" onclick="window.location.href='../forma/forma.html'">
-                    ✏️ Редактировать бюджет
+    const savedData = sessionStorage.getItem('myBudgetPlan');
+    
+    if (!savedData) {
+        budgetContent.innerHTML = `
+            <div class="budget-empty">
+                <div class="budget-empty-icon">📝</div>
+                <h3>Бюджет не настроен</h3>
+                <p>Спланируйте доходы и расходы</p>
+                <button class="budget-empty-btn" onclick="window.location.href='../forma/forma.html'">
+                    Создать бюджет
                 </button>
+            </div>
+        `;
+    } else {
+        const planData = JSON.parse(savedData);
+        let totalIncome = 0;
+        Object.values(planData.incomes).forEach(val => totalIncome += Number(val) || 0);
+        
+        let totalExpenses = 0;
+        Object.values(planData.amounts).forEach(val => totalExpenses += Number(val) || 0);
+        
+        const savings = totalIncome - totalExpenses;
+        const savingsPercent = totalIncome > 0 ? Math.round((savings / totalIncome) * 100) : 0;
+        
+        budgetContent.innerHTML = `
+            <div class="budget-categories-grid">
+                ${renderCategoryBlocks(planData.amounts)}
+            </div>
+            
+            <div class="budget-summary">
+                <div class="budget-summary-title">📊 Итого</div>
+                <div class="budget-row">
+                    <span class="budget-label">Доход</span>
+                    <span class="budget-value income">${totalIncome.toLocaleString('ru-RU')} ₽</span>
+                </div>
+                <div class="budget-row">
+                    <span class="budget-label">Расходы</span>
+                    <span class="budget-value expense">${totalExpenses.toLocaleString('ru-RU')} ₽</span>
+                </div>
+                <div class="budget-row">
+                    <span class="budget-label">Остаток (${savingsPercent}%)</span>
+                    <span class="budget-value savings">${savings.toLocaleString('ru-RU')} ₽</span>
+                </div>
+            </div>
+            
+            <button class="budget-edit-btn" onclick="window.location.href='../forma/forma.html'">
+                ✏️ Редактировать бюджет
+            </button>
+        `;
+    }
+}
+
+function renderCategoryBlocks(amounts) {
+    const categoryNames = {
+        'res-food': '🛒 Продукты',
+        'res-transport': '🚗 Транспорт',
+        'res-home': '🏠 Жилье',
+        'res-fun': '🎬 Развлечения',
+        'res-pillow': '🛡️ Фин. подушка'
+    };
+    
+    let html = '';
+    for (const [key, value] of Object.entries(amounts)) {
+        const name = categoryNames[key] || '📦 Другое';
+        const amount = Number(value) || 0;
+        if (amount > 0) {
+            html += `
+                <div class="budget-category-block">
+                    <span class="budget-cat-block-name">${name}</span>
+                    <span class="budget-cat-block-amount">${amount.toLocaleString('ru-RU')} ₽</span>
+                </div>
             `;
         }
     }
-    
-    // Рендеринг блоков категорий (включая фин. подушку)
-    function renderCategoryBlocks(amounts) {
-        const categoryNames = {
-            'res-food': '🛒 Продукты',
-            'res-transport': '🚗 Транспорт',
-            'res-home': '🏠 Жилье',
-            'res-fun': '🎬 Развлечения',
-            'res-pillow': '🛡️ Фин. подушка'
-        };
-        
-        let html = '';
-        for (const [key, value] of Object.entries(amounts)) {
-            const name = categoryNames[key] || '📦 Другое';
-            const amount = Number(value) || 0;
-            if (amount > 0) {
-                html += `
-                    <div class="budget-category-block">
-                        <span class="budget-cat-block-name">${name}</span>
-                        <span class="budget-cat-block-amount">${amount.toLocaleString('ru-RU')} ₽</span>
-                    </div>
-                `;
-            }
-        }
-        return html;
-    }
+    return html;
 }
 
 // Отображение прогресса подушки отдельно (карточка над бюджетом)

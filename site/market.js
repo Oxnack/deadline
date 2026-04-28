@@ -1,6 +1,49 @@
 const API_BASE = 'https://api.ddln.oxnack.com';
 let currentCart = [];
 
+
+// Получить баланс из sessionStorage
+function getBalance() {
+    for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        const data = sessionStorage.getItem(key);
+        if (data && data.includes('"res-food"')) {
+            try {
+                const parsed = JSON.parse(data);
+                return parseInt(parsed.amounts["res-food"]) || 30000;
+            } catch(e) {}
+        }
+    }
+    return 30000; // значение по умолчанию
+}
+
+// Сохранить баланс
+function setBalance(newBalance) {
+    for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        const data = sessionStorage.getItem(key);
+        if (data && data.includes('"res-food"')) {
+            try {
+                const parsed = JSON.parse(data);
+                parsed.amounts["res-food"] = newBalance;
+                sessionStorage.setItem(key, JSON.stringify(parsed));
+                break;
+            } catch(e) {}
+        }
+    }
+}
+
+// Обновить отображение баланса
+function updateBalanceDisplay() {
+    const balanceEl = document.getElementById('food-balance');
+    if (balanceEl) {
+        const balance = getBalance();
+        balanceEl.textContent = balance.toLocaleString('ru-RU') + ' ₽';
+        balanceEl.style.color = balance < 500 ? '#FF3B30' : '#34C759';
+    }
+}
+
+
 document.getElementById('predict-btn').addEventListener('click', async () => {
     // Собираем все 19 признаков (для примера берем часть из инпутов, остальные дефолт)
     const features = {
@@ -38,7 +81,7 @@ document.getElementById('predict-btn').addEventListener('click', async () => {
         // Переключаем экран
         document.getElementById('tech-modal').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
-        document.getElementById('segment-name').innerText = `Для вас: ${segment}`;
+        document.getElementById('segment-name').innerText = `Ваша категория (по всем транзакциям, в том числе оффлайн покупки, любые действия): ${segment}`;
         document.getElementById('confidence-val').innerText = `${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
         // 2. Получаем статистику сегмента
@@ -80,8 +123,27 @@ function renderProducts(products) {
 }
 
 function addToCart(name, price) {
+    const currentBalance = getBalance();
+    const newBalance = currentBalance - price;
+    
+    // Проверка на отрицательный баланс
+    if (newBalance < 0) {
+        alert('❌ Недостаточно средств!');
+        return;
+    }
+    
+    setBalance(newBalance);
+    updateBalanceDisplay();
+    
+    // Остальной код добавления в корзину
     currentCart.push({ name, price });
     document.getElementById('cart-count').innerText = currentCart.length;
     const total = currentCart.reduce((sum, item) => sum + item.price, 0);
     document.getElementById('cart-total-price').innerText = `${total} ₽`;
 }
+
+
+// В конце файла или в DOMContentLoaded
+updateBalanceDisplay();
+
+
