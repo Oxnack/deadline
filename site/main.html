@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение Город</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Фон шапки: текст и город уже на картинке bg_city.jpg -->
+        <header class="header"></header>
+
+        <main class="content-panel">
+            <!-- Поиск и Заказы -->
+            <div class="search-section">
+                <div class="search-bar">
+                    <img src="images/icon_search.svg" class="search-icon">
+                    <input type="text" placeholder="Поиск">
+                </div>
+                <button class="orders-btn">
+                    <img src="images/icon_orders.svg">
+                    Заказы
+                </button>
+            </div>
+
+            <!-- Сетка сервисов -->
+            <div class="services-grid">
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_supermarket.png"></div>
+                    <span>Супермаркеты</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_shopping.png"></div>
+                    <span>Шопинг</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_afisha.png"></div>
+                    <span>Афиша</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_fuel.png"></div>
+                    <span>Топливо</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_travel.png"></div>
+                    <span>Путешествия</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_auto.png"></div>
+                    <span>Купить авто</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_hotels.png"></div>
+                    <span>Отели</span>
+                </div>
+                <div class="service-item">
+                    <div class="icon-wrapper"><img src="images/ic_all.png"></div>
+                    <span>Все сервисы</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Нижнее меню (без красных уведомлений) -->
+        <nav class="bottom-nav">
+            <div class="nav-item">
+                <img src="images/nav_main.svg">
+                <span>Главная</span>
+            </div>
+            <div class="nav-item">
+                <img src="images/nav_payments.svg">
+                <span>Платежи</span>
+            </div>
+            <div class="nav-item active">
+                <img src="images/nav_city.svg">
+                <span>Город</span>
+            </div>
+            <div class="nav-item">
+                <img src="images/nav_support.svg">
+                <span>Поддержка</span>
+            </div>
+            <div class="nav-item">
+                <img src="images/nav_vitrina.svg">
+                <span>Витрина</span>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>
