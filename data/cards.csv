@@ -1,0 +1,21 @@
+card_id,category,name,price,image
+1,family,Набор выходного дня,2490,family_weekend.jpg
+2,family,Пельмени Сибирские 2кг,580,pelmeni.jpg
+3,family,Сок Rich 1л,220,juice_rich.jpg
+4,family,Пюре ФрутоНяня,180,puree_fruto.jpg
+5,budget,Макароны Щедрая Душа,65,macaroni.jpg
+6,budget,Чай Принцесса Нури,120,tea_princess.jpg
+7,budget,Тушёнка ГОСТ,190,tushonka.jpg
+8,budget,Хлеб Нарезной,45,bread.jpg
+9,gourmet_solo,Сыр Пармезан кусок,890,parmesan.jpg
+10,gourmet_solo,Прошутто нарезка,750,prosciutto.jpg
+11,gourmet_solo,Авокадо Хасс 2шт,320,avocado.jpg
+12,gourmet_solo,Оливки Каламата,420,olives.jpg
+13,busy_pro,Готовый обед ChefBox,490,chefbox.jpg
+14,busy_pro,Роллы Филадельфия сет,1200,philadelphia.jpg
+15,busy_pro,Суп Том Ям набор,380,tomyam.jpg
+16,busy_pro,Кофе навынос стакан,250,coffee_to_go.jpg
+17,traditional,Молоко Простоквашино,110,milk_prostokvashino.jpg
+18,traditional,Сметана Домик в дер.,95,smetana.jpg
+19,traditional,Крупа Гречневая,85,buckwheat.jpg
+20,traditional,Печенье Юбилейное,130,cookies.jpg

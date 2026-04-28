@@ -57,6 +57,36 @@ users.user_id ────< transactions.user_id
 users.user_id ────< user_labels.user_id
 ```
 
+
+## 4. features_merged.csv — агрегированные фичи + таргеты
+
+50 строк. Создаётся скриптом `aggregate_features.py`.
+
+| Столбец | Тип | Описание | Источник |
+|---|---|---|---|
+| user_id | int | FK → users.user_id | users |
+| age | int | Возраст | users |
+| gender | int | Пол (0=ж, 1=м) | users |
+| city_id | int | Город (0–4) | users |
+| income_rub | int | Доход | users |
+| family_code | int | Семейное положение (0–3) | users |
+| txn_count | int | Число транзакций | agg transactions |
+| avg_ticket | float | Средний чек, руб | agg transactions |
+| total_spend | float | Общие траты, руб | agg transactions |
+| std_ticket | float | Разброс чека (0 если 1 транзакция) | agg transactions |
+| weekend_share | float | Доля транзакций в выходные (0–1) | agg transactions |
+| evening_share | float | Доля транзакций вечером 17–22 (0–1) | agg transactions |
+| delivery_share | float | Доля онлайн-доставок (0–1) | agg transactions |
+| merchant_0_share | float | Доля эконом-магазинов | agg transactions |
+| merchant_1_share | float | Доля средних магазинов | agg transactions |
+| merchant_2_share | float | Доля премиум-магазинов | agg transactions |
+| merchant_3_share | float | Доля онлайн-магазинов | agg transactions |
+| days_active | int | Число уникальных дней с транзакциями | agg transactions |
+| hour_mode | int | Самый частый час покупок (0–23) | agg transactions |
+| txn_per_week | float | Среднее число транзакций в неделю | agg transactions |
+| segment | int | Таргет: сегмент (0–4) | user_labels |
+| will_return | int | Таргет: возврат (0/1) | user_labels |
+
 ## Как использовать
 
 1. Агрегировать transactions до уровня пользователя (средний чек, доля merchant_type, доля delivery_flag, доля выходных по day_offset % 7, мода часа).
