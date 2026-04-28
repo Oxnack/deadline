@@ -113,6 +113,9 @@ body { background-color: var(--bg-main); color: var(--text-primary); padding-bot
     gap: 8px;
 }
 
+a{
+    text-decoration: none;
+}
 .budget-cat-block-name {
     font-size: 13px;
     color: var(--text-secondary);

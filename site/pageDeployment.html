@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В разработке</title>
+    <link rel="stylesheet" href="pageDeployment.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Верхняя плашка в стиле мобильного приложения -->
+        <header class="app-bar">
+            <a href="javascript:history.back()" class="back-link">
+                <span class="back-icon">✕</span>
+            </a>
+        </header>
+
+        <main class="content">
+            <!-- Иконка с мягким фоном -->
+            <div class="status-icon-wrapper">
+                <div class="status-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <h1>Эта страница всё ещё <br>в разработке</h1>
+            <p>Мы работаем над новым функционалом, чтобы сделать сервис ещё удобнее. Загляните сюда чуть позже.</p>
+
+            <!-- Кнопка в стиле Т-банка -->
+            <button class="primary-btn" onclick="history.back()">Хорошо</button>
+        </main>
+
+        <footer class="legal-info">
+            АО «Т-Банк»
+        </footer>
+    </div>
+</body>
+</html>

@@ -117,6 +117,11 @@ function renderProducts(products) {
             <img src="images/${p.image}" class="p-img" onerror="this.src='images/default.jpg'">
             <div class="p-price">${p.price} ₽</div>
             <div class="p-name">${p.name}</div>
+            <div class="quantity-controls" id="controls-${p.name.replace(/\s+/g, '-')}">
+                <button class="qty-btn minus" onclick="changeQuantity('${p.name}', -1)">-</button>
+                <span class="qty-display" id="qty-${p.name.replace(/\s+/g, '-')}">0</span>
+                <button class="qty-btn plus" onclick="changeQuantity('${p.name}', 1)">+</button>
+            </div>
             <button class="p-btn" onclick="addToCart('${p.name}', ${p.price})">Добавить</button>
         </div>
     `).join('');
@@ -135,15 +140,69 @@ function addToCart(name, price) {
     setBalance(newBalance);
     updateBalanceDisplay();
     
-    // Остальной код добавления в корзину
-    currentCart.push({ name, price });
-    document.getElementById('cart-count').innerText = currentCart.length;
-    const total = currentCart.reduce((sum, item) => sum + item.price, 0);
-    document.getElementById('cart-total-price').innerText = `${total} ₽`;
+    // Найти товар в корзине
+    let item = currentCart.find(i => i.name === name);
+    if (item) {
+        item.quantity += 1;
+    } else {
+        currentCart.push({ name, price, quantity: 1 });
+    }
+    
+    updateCartDisplay();
+    
+    // Показать счетчик, скрыть кнопку
+    const controls = document.getElementById(`controls-${name.replace(/\s+/g, '-')}`);
+    const btn = controls.nextElementSibling;
+    controls.style.display = 'flex';
+    btn.style.display = 'none';
+    
+    updateQuantityDisplay(name);
 }
 
+function changeQuantity(name, delta) {
+    let item = currentCart.find(i => i.name === name);
+    if (!item) return;
+    
+    item.quantity += delta;
+    
+    if (item.quantity <= 0) {
+        // Удалить из корзины
+        currentCart = currentCart.filter(i => i.name !== name);
+        // Скрыть счетчик, показать кнопку
+        const controls = document.getElementById(`controls-${name.replace(/\s+/g, '-')}`);
+        const btn = controls.nextElementSibling;
+        controls.style.display = 'none';
+        btn.style.display = 'block';
+    } else {
+        // Обновить баланс
+        const priceChange = delta * item.price;
+        const currentBalance = getBalance();
+        const newBalance = currentBalance - priceChange;
+        
+        if (newBalance < 0) {
+            alert('❌ Недостаточно средств!');
+            item.quantity -= delta; // Откат
+            return;
+        }
+        
+        setBalance(newBalance);
+        updateBalanceDisplay();
+    }
+    
+    updateCartDisplay();
+    updateQuantityDisplay(name);
+}
 
-// В конце файла или в DOMContentLoaded
-updateBalanceDisplay();
+function updateQuantityDisplay(name) {
+    const item = currentCart.find(i => i.name === name);
+    const qty = item ? item.quantity : 0;
+    document.getElementById(`qty-${name.replace(/\s+/g, '-')}`).textContent = qty;
+}
+
+function updateCartDisplay() {
+    document.getElementById('cart-count').innerText = currentCart.reduce((sum, item) => sum + item.quantity, 0);
+    const total = currentCart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    document.getElementById('cart-total-price').innerText = `${total} ₽`;
+}
 
 

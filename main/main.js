@@ -100,12 +100,22 @@ function renderCategoryBlocks(amounts) {
         const name = categoryNames[key] || '📦 Другое';
         const amount = Number(value) || 0;
         if (amount > 0) {
-            html += `
-                <div class="budget-category-block">
+            if (name == "🛒 Продукты"){
+                html += `<a href="../site/market.html">
+                <div class="budget-category-block" >
                     <span class="budget-cat-block-name">${name}</span>
                     <span class="budget-cat-block-amount">${amount.toLocaleString('ru-RU')} ₽</span>
-                </div>
+                </div></a>
             `;
+            }
+            else{
+                html += `<a href="../site/pageDeployment.html">
+                <div class="budget-category-block" >
+                    <span class="budget-cat-block-name">${name}</span>
+                    <span class="budget-cat-block-amount">${amount.toLocaleString('ru-RU')} ₽</span>
+                </div></a>
+            `;
+            }
         }
     }
     return html;
