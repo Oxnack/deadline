@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalSavings = document.getElementById('final-savings');
     const finalPercentText = document.getElementById('final-percent-text');
 
+    const STORAGE_KEY = 'myBudgetPlan';
+
     // Получить общий доход
     function getTotalIncome() {
         let total = 0;
@@ -37,7 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const displayPercent = Math.min(usedPercent, 100);
         progressBar.style.width = displayPercent + '%';
-        statusBadge.textContent = `Использовано: ${usedPercent}%`;
+        
+        // Визуальное предупреждение при превышении 100%
+        if (usedPercent > 100) {
+            progressBar.classList.add('danger');
+            statusBadge.classList.add('overlimit');
+            statusBadge.textContent = `⚠️ Перерасход: ${usedPercent}%`;
+        } else {
+            progressBar.classList.remove('danger');
+            statusBadge.classList.remove('overlimit');
+            statusBadge.textContent = `Использовано: ${usedPercent}%`;
+        }
 
         const remainingPercent = 100 - usedPercent;
         const remainingMoney = (totalIncome * remainingPercent) / 100;
@@ -47,12 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
             : `Перерасход: ${Math.abs(remainingPercent)}%`;
     }
 
-    // 2. СОХРАНЕНИЕ СУММ (РУБЛЕЙ)
-    function savePlan() {
+    // 2. АВТОСОХРАНЕНИЕ СУММ (ПОСТОЯННОЕ)
+    function autoSavePlan() {
         const totalIncome = getTotalIncome();
         const planData = {
             incomes: {},
-            amounts: {} // Подушка сохранится здесь автоматически как res-pillow
+            amounts: {},
+            lastSaved: new Date().toISOString()
         };
 
         incomeInputs.forEach(input => {
@@ -66,7 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
             planData.amounts[key] = amountInRubles;
         });
 
-        sessionStorage.setItem('myBudgetPlan', JSON.stringify(planData));
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(planData));
+    }
+
+    // 3. СОХРАНЕНИЕ С УВЕДОМЛЕНИЕМ (при клике на кнопку)
+    function savePlan() {
+        autoSavePlan();
         
         const originalText = saveBtn.textContent;
         saveBtn.textContent = "✅ Суммы сохранены";
@@ -79,43 +97,69 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     }
 
-    // 3. ЗАГРУЗКА И ОБРАТНЫЙ РАСЧЕТ ПРОЦЕНТОВ
+    // 4. ЗАГРУЗКА И ОБРАТНЫЙ РАСЧЕТ ПРИспользованоОЦЕНТОВ
     function loadPlan() {
-        const savedData = sessionStorage.getItem('myBudgetPlan');
+        const savedData = sessionStorage.getItem(STORAGE_KEY);
         if (!savedData) {
             updateCalculations();
             return;
         }
 
-        const planData = JSON.parse(savedData);
+        try {
+            const planData = JSON.parse(savedData);
 
-        incomeInputs.forEach(input => {
-            if (planData.incomes[input.id] !== undefined) {
-                input.value = planData.incomes[input.id];
-            }
-        });
+            incomeInputs.forEach(input => {
+                if (planData.incomes[input.id] !== undefined) {
+                    input.value = planData.incomes[input.id];
+                }
+            });
 
-        const totalIncome = getTotalIncome();
+            const totalIncome = getTotalIncome();
 
-        percentInputs.forEach(input => {
-            const key = input.dataset.res;
-            const savedAmount = planData.amounts[key];
+            percentInputs.forEach(input => {
+                const key = input.dataset.res;
+                const savedAmount = planData.amounts[key];
 
-            if (savedAmount !== undefined && totalIncome > 0) {
-                const calculatedPercent = (savedAmount / totalIncome) * 100;
-                input.value = Math.round(calculatedPercent);
-            }
-        });
+                if (savedAmount !== undefined && totalIncome > 0) {
+                    const calculatedPercent = (savedAmount / totalIncome) * 100;
+                    input.value = Math.round(calculatedPercent);
+                }
+            });
+        } catch (e) {
+            console.log('Ошибка загрузки данных:', e);
+        }
 
         updateCalculations();
     }
 
-    // Слушатели событий
+    // Слушатели событий - автосохранение при любом изменении
     [...incomeInputs, ...percentInputs].forEach(input => {
-        input.addEventListener('input', updateCalculations);
+        input.addEventListener('input', () => {
+            updateCalculations();
+            autoSavePlan(); // Автосохранение при каждом изменении
+        });
+    });
+
+    // Валидация процентов - не позволяет превышать 100%
+    percentInputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+            let totalPercent = 0;
+            percentInputs.forEach(inp => {
+                totalPercent += Number(inp.value) || 0;
+            });
+
+            // Если превышено 100%, откатываем значение
+            if (totalPercent > 100) {
+                const maxAllowed = 100 - (totalPercent - Number(e.target.value));
+                e.target.value = Math.max(0, maxAllowed);
+                updateCalculations();
+                autoSavePlan();
+            }
+        });
     });
 
     saveBtn.addEventListener('click', savePlan);
 
+    // Загрузка при загрузке страницы
     loadPlan();
 });
