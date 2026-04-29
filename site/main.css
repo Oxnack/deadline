@@ -12,6 +12,15 @@ body {
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
+    text-decoration: none;
+}
+
+a{
+    text-decoration: none;
+}
+a:visited {
+    color: inherit;
+    text-decoration: none;
 }
 
 /* Контейнер приложения */

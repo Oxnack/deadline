@@ -91,8 +91,11 @@ document.getElementById('predict-btn').addEventListener('click', async () => {
         document.getElementById('tech-modal').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
         const segmentDesc = categoryDescriptions[segment] || segment;
-        document.getElementById('segment-name').innerText = `Ваша категория по вашим данным (включая все синтетические транзакции): ${segmentDesc}`;
-        document.getElementById('confidence-val').innerText = `${(predData.confidence * 100).toFixed(0)}% совпадение`;
+        document.getElementById('segment-name').innerHTML = `Ваша категория по вашим данным: 
+        <br><strong>${segmentDesc}</strong></br>`;
+        document.getElementById('confidence-val').innerText = `
+        
+        ${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
         // 2. Получаем статистику сегмента
         const statsRes = await fetch(`${API_BASE}/api/v1/segment/stats?category=${segment}`);
