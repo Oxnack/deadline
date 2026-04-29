@@ -91,7 +91,7 @@ document.getElementById('predict-btn').addEventListener('click', async () => {
         document.getElementById('tech-modal').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
         const segmentDesc = categoryDescriptions[segment] || segment;
-        document.getElementById('segment-name').innerText = `Ваша категория (учитывая все транзакции, в том числе оффлайн покупки, любые действия): ${segment} (${segmentDesc})`;
+        document.getElementById('segment-name').innerText = `Ваша категория (по всем транзакциям, в том числе оффлайн покупки, любые действия): ${segmentDesc}`;
         document.getElementById('confidence-val').innerText = `${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
         // 2. Получаем статистику сегмента
@@ -183,6 +183,20 @@ function changeQuantity(name, delta) {
         const btn = controls.nextElementSibling;
         controls.style.display = 'none';
         btn.style.display = 'block';
+
+                // Обновить баланс
+        const priceChange = delta * item.price;
+        const currentBalance = getBalance();
+        const newBalance = currentBalance - priceChange;
+        
+        if (newBalance < 0) {
+            alert('❌ Недостаточно средств!');
+            item.quantity -= delta; // Откат
+            return;
+        }
+        
+        setBalance(newBalance);
+        updateBalanceDisplay();
     } else {
         // Обновить баланс
         const priceChange = delta * item.price;
@@ -216,3 +230,4 @@ function updateCartDisplay() {
 }
 
 
+updateBalanceDisplay();
