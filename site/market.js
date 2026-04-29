@@ -94,7 +94,6 @@ document.getElementById('predict-btn').addEventListener('click', async () => {
         document.getElementById('segment-name').innerHTML = `Ваша категория по вашим данным: 
         <br><strong>${segmentDesc}</strong></br>`;
         document.getElementById('confidence-val').innerText = `
-        
         ${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
         // 2. Получаем статистику сегмента
