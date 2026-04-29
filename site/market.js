@@ -91,7 +91,7 @@ document.getElementById('predict-btn').addEventListener('click', async () => {
         document.getElementById('tech-modal').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
         const segmentDesc = categoryDescriptions[segment] || segment;
-        document.getElementById('segment-name').innerText = `Ваша категория (по всем транзакциям, в том числе оффлайн покупки, любые действия): ${segmentDesc}`;
+        document.getElementById('segment-name').innerText = `Ваша категория по вашим данным (включая все синтетические транзакции): ${segmentDesc}`;
         document.getElementById('confidence-val').innerText = `${(predData.confidence * 100).toFixed(0)}% совпадение`;
 
         // 2. Получаем статистику сегмента
