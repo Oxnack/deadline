@@ -46,7 +46,7 @@ body { display: flex; justify-content: center; width: 100%; }
 .qty-display { font-weight: bold; min-width: 20px; text-align: center; }
 
 /* Bottom Nav */
-.bottom-nav { position: fixed; bottom: 0; width: 430px; background: #fff; display: flex; padding: 10px 0 25px; border-top: 1px solid #eee; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 430px; max-width: 100vw; background: #fff; display: flex; padding: 10px 0 25px; border-top: 1px solid #eee; z-index: 50; }
 .nav-tab { flex: 1; display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #999; position: relative; }
 .nav-tab.active { color: var(--t-blue); }
 .nav-tab img { width: 24px; margin-bottom: 4px; }
